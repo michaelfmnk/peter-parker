@@ -3,6 +3,7 @@ package com.michaelfmnk.peterparker.userapi.domain.model
 import assertk.assertThat
 import assertk.assertions.isNotNull
 import com.michaelfmnk.peterparker.userapi.domain.DomainTestConfiguration
+import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
 import com.michaelfmnk.peterparker.userapi.domain.repository.IncidentRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

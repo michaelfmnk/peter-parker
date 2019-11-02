@@ -11,17 +11,20 @@ VALUES (1, 'ADMIN'),
 
 CREATE TABLE users
 (
-    user_id  SERIAL PRIMARY KEY,
-    phone    VARCHAR NOT NULL,
-    password VARCHAR NOT NULL,
-    role_id  INT REFERENCES roles (id)
+    id         SERIAL PRIMARY KEY,
+    phone      VARCHAR NOT NULL,
+    password   VARCHAR NOT NULL,
+    first_name VARCHAR,
+    last_name  VARCHAR,
+    enabled    BOOLEAN NOT NULL DEFAULT FALSE,
+    role_id    INT REFERENCES roles (id)
 );
 
 CREATE TABLE otps
 (
     value   UUID PRIMARY KEY,
     date    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-    user_id INT REFERENCES users (user_id)
+    user_id INT REFERENCES users (id)
 );
 
 CREATE TABLE incident_statuses

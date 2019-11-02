@@ -3,7 +3,7 @@ package com.michaelfmnk.peterparker.userapi.rest
 import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.michaelfmnk.peterparker.userapi.domain.model.Incident
+import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 

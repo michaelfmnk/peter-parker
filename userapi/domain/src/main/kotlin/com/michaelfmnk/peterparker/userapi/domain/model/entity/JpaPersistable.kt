@@ -1,4 +1,4 @@
-package com.michaelfmnk.peterparker.userapi.domain.model
+package com.michaelfmnk.peterparker.userapi.domain.model.entity
 
 import org.springframework.data.util.ProxyUtils
 import java.io.Serializable

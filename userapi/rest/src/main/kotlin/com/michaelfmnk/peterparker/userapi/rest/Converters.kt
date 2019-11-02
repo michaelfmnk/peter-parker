@@ -1,6 +1,5 @@
 package com.michaelfmnk.peterparker.userapi.rest
 
-import com.michaelfmnk.peterparker.userapi.api.dto.IncidentDto
-import com.michaelfmnk.peterparker.userapi.domain.model.Incident
+import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
 
 fun Incident.toDto() = IncidentDto(id, createdDate)
