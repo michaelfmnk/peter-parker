@@ -1,14 +1,13 @@
 package com.michaelfmnk.peterparker.userapi.domain.model.entity
 
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "otps")
 class Otp(
         @Id
-        val value: UUID,
+        val value: String,
         val date: LocalDateTime,
         @ManyToOne
         @JoinColumn(name = "user_id")

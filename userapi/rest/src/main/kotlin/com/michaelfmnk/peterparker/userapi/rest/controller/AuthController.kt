@@ -1,6 +1,7 @@
 package com.michaelfmnk.peterparker.userapi.rest.controller
 
 import com.michaelfmnk.peterparker.userapi.api.Api
+import com.michaelfmnk.peterparker.userapi.api.dto.CodeContainer
 import com.michaelfmnk.peterparker.userapi.api.dto.LoginRequest
 import com.michaelfmnk.peterparker.userapi.api.dto.SignUpRequest
 import com.michaelfmnk.peterparker.userapi.domain.model.Token
@@ -26,5 +27,10 @@ class AuthController(
     @PostMapping(Api.Auth.SIGN_UP)
     fun signUp(@Valid @RequestBody signUpRequest: SignUpRequest) {
         authService.signUp(signUpRequest.phone, signUpRequest.password).toSignUpResponseDto()
+    }
+
+    @PostMapping(Api.Auth.CODE)
+    fun confirmCode(@Valid @RequestBody codeContainer: CodeContainer) {
+        authService.confirmOtp(codeContainer.code)
     }
 }

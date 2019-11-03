@@ -1,7 +1,6 @@
 package com.michaelfmnk.peterparker.userapi.domain.model.entity
 
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -22,7 +21,7 @@ class User(
     val fullName: String?
         get() = if (lastName != null && firstName != null) "$firstName $lastName" else null
 
-    fun addOtp(otpValue: UUID) {
+    fun addOtp(otpValue: String) {
         val otp = Otp(
                 value = otpValue,
                 date = LocalDateTime.now(),
