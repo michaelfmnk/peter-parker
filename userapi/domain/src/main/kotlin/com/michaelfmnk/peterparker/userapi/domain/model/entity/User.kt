@@ -2,10 +2,7 @@ package com.michaelfmnk.peterparker.userapi.domain.model.entity
 
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "users")
@@ -18,6 +15,7 @@ class User(
         var enabled: Boolean = false,
         var lastName: String? = null,
         var firstName: String? = null,
+        @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
         val otps: MutableList<Otp> = mutableListOf()
 ) : JpaPersistable<Long>() {
 
