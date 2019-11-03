@@ -9,14 +9,7 @@ import java.time.LocalDateTime
 
 
 @RestController
-class VersionController {
-
-    private final val clock: Clock
-
-    constructor(clock: Clock) {
-        print("CREATING")
-        this.clock = clock
-    }
+class VersionController(private val clock: Clock) {
 
     @GetMapping(Api.VERSION)
     fun getVersion() = VersionDto(LocalDateTime.now(clock).toString())

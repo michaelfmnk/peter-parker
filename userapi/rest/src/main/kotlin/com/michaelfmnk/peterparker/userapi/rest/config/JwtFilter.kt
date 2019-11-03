@@ -23,30 +23,31 @@ class JwtFilter(
                                   chain: FilterChain) {
         if (isPathMatchesExcludePath(request.servletPath)) {
             chain.doFilter(request, response)
-        } else {
-            val token = request.getHeader("Authorization")
-            var userId: Long? = null
-            try {
-                userId = token?.let {
-                    jwtService.getUserIdFromToken(token)
-                }
-            } catch (e: IllegalArgumentException) {
-                logger.warn("an error occurred during getting user_id from token")
-            } catch (e: ExpiredJwtException) {
-                logger.warn("the token is expired and not valid anymore")
-            }
-
-            logger.info(String.format("checking authentication for user_id=%s", userId))
-            if (userId != null && Objects.isNull(SecurityContextHolder.getContext().authentication)) {
-                val user = userService.findUserById(userId)
-                if (jwtService.isTokenValid(token, user)) {
-                    val authentication = UserAuthentication(user)
-                    logger.info(String.format("authenticated user %s, setting security context", userId))
-                    SecurityContextHolder.getContext().authentication = authentication
-                }
-            }
-            chain.doFilter(request, response)
+            return
         }
+
+        val token = request.getHeader("Authorization")
+        val userId = parseUserId(token)
+
+        logger.info("checking authentication for user_id=$userId")
+        if (userId != null && SecurityContextHolder.getContext().authentication == null) {
+            val user = userService.findUserById(userId)
+            if (jwtService.isTokenValid(token, user)) {
+                logger.info("authenticated user $userId, setting security context")
+                SecurityContextHolder.getContext().authentication = UserAuthentication(user)
+            }
+        }
+        chain.doFilter(request, response)
+    }
+
+    private fun parseUserId(token: String): Long? = try {
+        jwtService.getUserIdFromToken(token)
+    } catch (e: ExpiredJwtException) {
+        logger.warn("the token is expired and not valid anymore")
+        null
+    } catch (e: RuntimeException) {
+        logger.warn("an error occurred during getting user_id from token")
+        null
     }
 
     private fun isPathMatchesExcludePath(servletPath: String): Boolean {

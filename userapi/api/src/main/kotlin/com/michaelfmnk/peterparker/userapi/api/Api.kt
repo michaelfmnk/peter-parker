@@ -6,6 +6,7 @@ object Api {
 
     object Auth {
         const val LOGIN = "/auth/login"
+        const val SIGN_UP = "/auth/sign-up"
     }
 
 }

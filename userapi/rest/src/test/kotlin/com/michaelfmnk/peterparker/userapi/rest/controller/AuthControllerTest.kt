@@ -6,7 +6,6 @@ import com.michaelfmnk.peterparker.userapi.domain.exception.BadCredentialsExcept
 import com.michaelfmnk.peterparker.userapi.domain.model.BasicUserInfo
 import com.michaelfmnk.peterparker.userapi.domain.model.Token
 import com.michaelfmnk.peterparker.userapi.domain.service.AuthService
-import com.michaelfmnk.peterparker.userapi.domain.service.UserService
 import com.michaelfmnk.peterparker.userapi.rest.performing
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
@@ -17,13 +16,11 @@ import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 
-@WebMvcTest(VersionController::class)
+@WebMvcTest(AuthController::class)
 class AuthControllerTest : BaseControllerTest() {
 
     @MockkBean
     lateinit var authService: AuthService
-    @MockkBean
-    lateinit var userService: UserService
 
     @Test
     fun `should not login user`() {

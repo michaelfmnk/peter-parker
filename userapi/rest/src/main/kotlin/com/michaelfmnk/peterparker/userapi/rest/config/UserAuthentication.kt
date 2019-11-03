@@ -24,6 +24,5 @@ data class UserAuthentication(
         this.authenticated = authenticated
     }
 
-    override fun getAuthorities() = listOf(user.role)
-            .map { SimpleGrantedAuthority(it.name.name) }
+    override fun getAuthorities() = listOf(user.role).map { SimpleGrantedAuthority(it.name.name) }
 }

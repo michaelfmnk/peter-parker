@@ -1,6 +1,7 @@
 package com.michaelfmnk.peterparker.userapi.domain.service
 
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.User
+import com.michaelfmnk.peterparker.userapi.domain.plus
 import com.michaelfmnk.peterparker.userapi.domain.property.AuthProperties
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
@@ -11,6 +12,8 @@ import java.nio.file.Files.readAllBytes
 import java.security.KeyFactory
 import java.security.PrivateKey
 import java.security.spec.PKCS8EncodedKeySpec
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 import java.util.*
 import javax.annotation.PostConstruct
 
@@ -24,6 +27,7 @@ class JwtService(
 
     companion object ClaimKeys {
         const val USER_ID = "userId"
+        const val PHONE = "phone"
     }
 
     @PostConstruct
@@ -35,9 +39,9 @@ class JwtService(
 
     fun generateToken(user: User): String = createToken(createClaims(user), user.id)
 
-    fun getUserIdFromToken(authToken: String) = getClaimFromToken(authToken) { it.id.toLong() }
+    fun getUserIdFromToken(authToken: String) = getClaimFromToken(authToken) { (it[USER_ID] as String).toLong() }
 
-    fun getPhoneFromToken(token: String): String = getClaimFromToken(token) { it.subject }
+    fun getPhoneFromToken(token: String): String = getClaimFromToken(token) { it[PHONE] as String }
 
     fun getExpirationDateFromToken(token: String): Date = getClaimFromToken(token) { it.expiration }
 
@@ -50,7 +54,7 @@ class JwtService(
 
     private fun isTokenExpired(token: String): Boolean {
         val expiration = getExpirationDateFromToken(token)
-        return expiration.before(Date())
+        return Date().after(expiration)
     }
 
     private fun <T> getClaimFromToken(token: String, resolver: (Claims) -> T) = resolver(getAllClaims(token))
@@ -63,9 +67,13 @@ class JwtService(
     private fun createToken(claims: Map<String, Any?>, userId: Long?) = Jwts.builder()
             .setClaims(claims)
             .setSubject(userId.toString())
+            .setExpiration(Date() plus Duration.of(1, ChronoUnit.HOURS))
             .signWith(SignatureAlgorithm.RS256, privateKey)
             .compact()
 
-    private fun createClaims(user: User): Map<String, Any?> = mapOf(USER_ID to user.id)
+    private fun createClaims(user: User): Map<String, Any?> = mutableMapOf(
+            USER_ID to user.id.toString(),
+            PHONE to user.phone
+    )
 
 }
