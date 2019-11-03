@@ -2,7 +2,6 @@ package com.michaelfmnk.peterparker.userapi.domain.model
 
 import assertk.assertThat
 import assertk.assertions.isNotNull
-import assertk.assertions.isTrue
 import com.michaelfmnk.peterparker.userapi.domain.DomainTestConfiguration
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.RoleType
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.User
@@ -37,12 +36,12 @@ class UserTest {
 
     @Test
     fun `should save user with otp`() {
-        val otpValue = UUID.randomUUID()
+        val otpValue = UUID.randomUUID().toString()
         val user = User(password = "password", phone = "", role = RoleType.ADMIN.instance)
         user.addOtp(otpValue)
 
         userRepository.save(user)
 
-        assertThat(otpRepository.findById(otpValue).isPresent).isTrue()
+        assertThat(otpRepository.findByOtpValue(otpValue)).isNotNull()
     }
 }

@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import com.michaelfmnk.peterparker.userapi.domain.exception.BadCredentialsException
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.RoleType
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.User
+import com.michaelfmnk.peterparker.userapi.domain.repository.OtpRepository
 import com.michaelfmnk.peterparker.userapi.domain.repository.UserRepository
 import io.mockk.CapturingSlot
 import io.mockk.MockKAnnotations
@@ -26,14 +27,15 @@ class AuthServiceTest {
     lateinit var userRepository: UserRepository
     @MockK
     lateinit var passwordEncoder: PasswordEncoder
-
+    @MockK
+    lateinit var otpRepository: OtpRepository
 
     lateinit var authService: AuthService
 
     @BeforeEach
     fun `set up`() {
         MockKAnnotations.init(this)
-        authService = AuthService(smsSender, jwtService, userRepository, passwordEncoder)
+        authService = AuthService(smsSender, jwtService, otpRepository, CodeGenerator(), userRepository, passwordEncoder)
     }
 
     @Test
