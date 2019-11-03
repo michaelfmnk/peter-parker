@@ -13,5 +13,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Builde UserAPI
+    - name: Build UserAPI
       run: mvn -B package --file ./userapi/pom.xml
