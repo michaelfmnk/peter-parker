@@ -16,7 +16,7 @@ class VersionControllerTest : BaseControllerTest() {
                 .get("/version").prettyPeek()
                 .then()
                 .statusCode(200)
-                .body("version", Matchers.equalTo("2007-12-03T12:15:30"))
+                .body("version", Matchers.equalTo("2007-12-03T10:15:30"))
     }
 
 }
