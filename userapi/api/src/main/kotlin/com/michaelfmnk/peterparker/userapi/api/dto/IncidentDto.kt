@@ -4,5 +4,6 @@ import java.time.LocalDateTime
 
 data class IncidentDto(
         var id: Long? = null,
-        var createdDate: LocalDateTime
+        var createdDate: LocalDateTime,
+        var location: LocationDto
 )

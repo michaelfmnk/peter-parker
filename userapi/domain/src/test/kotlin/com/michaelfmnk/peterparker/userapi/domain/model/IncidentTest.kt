@@ -6,7 +6,8 @@ import assertk.assertions.isNotNull
 import com.michaelfmnk.peterparker.userapi.domain.DomainTestConfiguration
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
 import com.michaelfmnk.peterparker.userapi.domain.repository.IncidentRepository
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Point
@@ -24,10 +25,11 @@ class IncidentTest {
     @Autowired
     lateinit var incidentRepository: IncidentRepository
 
-    @Test
-    fun `should persist incident and provide id`() {
+    @ParameterizedTest
+    @CsvSource(value = ["90, 100", "80, 70", "333, 99"])
+    fun `should persist incident and provide id`(x: Double, y: Double) {
         // given
-        val point = createPoint(90.0, 100.0)
+        val point = createPoint(x, y)
 
         val incident = Incident("documentId", LocalDateTime.now(), point)
 
