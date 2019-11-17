@@ -10,4 +10,8 @@ object Api {
         const val CODE = "/auth/confirm-code"
     }
 
+    object Incidents {
+        const val INCIDENTS = "/incidents"
+    }
+
 }

@@ -9,9 +9,10 @@ import javax.persistence.Table
 @Entity
 @Table(name = "incidents")
 class Incident(
-        val documentId: String,
-        val createdDate: LocalDateTime,
+        val documentId: String? = null,
+        val createdDate: LocalDateTime? = null,
         @field:Column(columnDefinition = "geometry(Point,4326)")
-        val location: Point
+        val location: Point,
+        val description: String
 ) : JpaPersistable<Long>()
 

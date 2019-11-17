@@ -25,4 +25,7 @@ data class UserAuthentication(
     }
 
     override fun getAuthorities() = listOf(user.role).map { SimpleGrantedAuthority(it.name.name) }
+
+    val userId
+        get() = user.id!!
 }
