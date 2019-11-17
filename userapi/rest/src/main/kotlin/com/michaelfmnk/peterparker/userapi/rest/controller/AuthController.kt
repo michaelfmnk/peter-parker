@@ -31,7 +31,5 @@ class AuthController(
     }
 
     @PostMapping(Api.Auth.CODE)
-    fun confirmCode(@Validated @RequestBody codeContainer: CodeContainer) {
-        authService.confirmOtp(codeContainer.code)
-    }
+    fun confirmCode(@Validated @RequestBody codeContainer: CodeContainer) = authService.confirmOtp(codeContainer.code)
 }

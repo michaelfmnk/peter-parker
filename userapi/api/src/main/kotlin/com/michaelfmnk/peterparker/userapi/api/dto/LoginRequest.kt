@@ -3,8 +3,8 @@ package com.michaelfmnk.peterparker.userapi.api.dto
 import javax.validation.constraints.NotBlank
 
 data class LoginRequest(
-        @NotBlank
+        @field:NotBlank
         val phone: String,
-        @NotBlank
+        @field:NotBlank
         val password: String
 )

@@ -1,9 +1,11 @@
 package com.michaelfmnk.peterparker.userapi.rest.controller
 
 import com.michaelfmnk.peterparker.userapi.api.Api
+import com.michaelfmnk.peterparker.userapi.api.dto.CodeContainer
 import com.michaelfmnk.peterparker.userapi.api.dto.LoginRequest
 import com.michaelfmnk.peterparker.userapi.api.dto.SignUpRequest
 import com.michaelfmnk.peterparker.userapi.domain.exception.BadCredentialsException
+import com.michaelfmnk.peterparker.userapi.domain.exception.InvalidOtpException
 import com.michaelfmnk.peterparker.userapi.domain.model.BasicUserInfo
 import com.michaelfmnk.peterparker.userapi.domain.model.Token
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.RoleType
@@ -103,6 +105,54 @@ class AuthControllerTest : BaseControllerTest() {
 
 
         verify { authService.signUp(any(), any()) wasNot called }
+    }
+
+    @Test
+    fun `should check otp with success`() {
+        every { authService.confirmOtp(any()) } returns Token("token", BasicUserInfo(
+                userId = 200
+        ))
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(CodeContainer("code"))
+                .doing()
+                .post(Api.BASE_PATH + Api.Auth.CODE).prettyPeek()
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("token", Matchers.equalTo("token"))
+                .body("user.userId", Matchers.equalTo(200))
+
+
+        verify { authService.confirmOtp("code") }
+    }
+
+    @Test
+    fun `should check otp and fail`() {
+        every { authService.confirmOtp(any()) } throws InvalidOtpException()
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(CodeContainer("code"))
+                .doing()
+                .post(Api.BASE_PATH + Api.Auth.CODE).prettyPeek()
+                .then()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .body("message", Matchers.equalTo("error.invalid.code"))
+    }
+
+    @Test
+    fun `should not check blank otp`() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(CodeContainer("   "))
+                .doing()
+                .post(Api.BASE_PATH + Api.Auth.CODE).prettyPeek()
+                .then()
+                .statusCode(HttpStatus.SC_UNPROCESSABLE_ENTITY)
+                .body("message", Matchers.equalTo("error.validation.failure"))
+
+        verify { authService.confirmOtp(any()) wasNot called }
     }
 
 }

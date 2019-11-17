@@ -22,7 +22,8 @@ class SecurityConfig(
     private val excludedPaths = listOf(
             Api.VERSION,
             Api.BASE_PATH + Api.Auth.LOGIN,
-            Api.BASE_PATH + Api.Auth.SIGN_UP
+            Api.BASE_PATH + Api.Auth.SIGN_UP,
+            Api.BASE_PATH + Api.Auth.CODE
     )
 
     override fun configure(http: HttpSecurity) {

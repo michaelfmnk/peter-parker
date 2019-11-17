@@ -4,6 +4,7 @@ import com.michaelfmnk.peterparker.userapi.api.dto.ApiErrorDetails
 import com.michaelfmnk.peterparker.userapi.api.dto.ApiErrorDto
 import com.michaelfmnk.peterparker.userapi.api.dto.ValidationError
 import com.michaelfmnk.peterparker.userapi.domain.exception.BadCredentialsException
+import com.michaelfmnk.peterparker.userapi.domain.exception.InvalidOtpException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindException
@@ -24,13 +25,19 @@ class ErrorHandlingController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     fun handle(ex: RuntimeException, request: HttpServletRequest): ApiErrorDto {
-        return ApiErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "internal server error", LocalDateTime.now(), request.requestURI)
+        return ApiErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "error.internal.server", LocalDateTime.now(), request.requestURI)
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     fun handle(ex: BadCredentialsException, request: HttpServletRequest): ApiErrorDto {
-        return ApiErrorDto(HttpStatus.UNAUTHORIZED.value(), "bad credentials", LocalDateTime.now(), request.requestURI)
+        return ApiErrorDto(HttpStatus.UNAUTHORIZED.value(), "error.bad.credentials", LocalDateTime.now(), request.requestURI)
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handle(ex: InvalidOtpException, request: HttpServletRequest): ApiErrorDto {
+        return ApiErrorDto(HttpStatus.BAD_REQUEST.value(), "error.invalid.code", LocalDateTime.now(), request.requestURI)
     }
 
     @ExceptionHandler
