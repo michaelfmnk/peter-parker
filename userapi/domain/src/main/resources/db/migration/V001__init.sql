@@ -22,7 +22,7 @@ CREATE TABLE users
 
 CREATE TABLE otps
 (
-    value   UUID PRIMARY KEY,
+    value   VARCHAR PRIMARY KEY,
     date    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
     user_id INT REFERENCES users (id)
 );

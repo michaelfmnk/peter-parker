@@ -1,22 +1,20 @@
-package com.michaelfmnk.peterparker.userapi.rest
+package com.michaelfmnk.peterparker.userapi.rest.controller
 
 import com.michaelfmnk.peterparker.userapi.domain.property.AuthProperties
 import com.michaelfmnk.peterparker.userapi.infrastructure.RestClientProperties
+import com.michaelfmnk.peterparker.userapi.rest.UserApiApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+
 
 @SpringBootApplication(scanBasePackages = [
     "com.michaelfmnk.peterparker.userapi.infrastructure",
     "com.michaelfmnk.peterparker.userapi.domain",
     "com.michaelfmnk.peterparker.userapi.rest"
 ])
-@EntityScan("com.michaelfmnk.peterparker.userapi.domain.model.entity")
-@EnableJpaRepositories("com.michaelfmnk.peterparker.userapi.domain.repository")
 @EnableConfigurationProperties(value = [AuthProperties::class, RestClientProperties::class])
-class UserApiApplication
+class ControllerTestApplication
 
 fun main(args: Array<String>) {
     runApplication<UserApiApplication>(*args)

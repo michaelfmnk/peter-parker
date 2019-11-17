@@ -2,9 +2,9 @@ package com.michaelfmnk.peterparker.userapi.rest.config
 
 import com.michaelfmnk.peterparker.userapi.domain.service.JwtService
 import com.michaelfmnk.peterparker.userapi.domain.service.UserService
-import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
+import org.springframework.web.util.UrlPathHelper
 import java.util.*
 import java.util.regex.Pattern
 import javax.servlet.FilterChain
@@ -21,7 +21,10 @@ class JwtFilter(
     override fun doFilterInternal(request: HttpServletRequest,
                                   response: HttpServletResponse,
                                   chain: FilterChain) {
-        if (isPathMatchesExcludePath(request.servletPath)) {
+
+        val servletPath = UrlPathHelper().getPathWithinApplication(request)
+        println("servlet path =" + servletPath)
+        if (isPathMatchesExcludePath(servletPath)) {
             chain.doFilter(request, response)
             return
         }
@@ -42,9 +45,6 @@ class JwtFilter(
 
     private fun parseUserId(token: String): Long? = try {
         jwtService.getUserIdFromToken(token)
-    } catch (e: ExpiredJwtException) {
-        logger.warn("the token is expired and not valid anymore")
-        null
     } catch (e: RuntimeException) {
         logger.warn("an error occurred during getting user_id from token")
         null

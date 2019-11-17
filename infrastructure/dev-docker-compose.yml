@@ -24,8 +24,10 @@ services:
     image: michaelfmnk/peterparker
     restart: always
     environment:
-      - JVM_MEMORY_OPTS=-Dspring.datasource.url=jdbc:postgresql://postgres:5432/peter-parker-userapi -Dspring.datasource.username=postgres -Dspring.datasource.password=postgres -Dserver.port=8080
+      - JVM_MEMORY_OPTS=-Dspring.datasource.url=jdbc:postgresql://postgres:5432/peter-parker-userapi -Dspring.datasource.username=postgres -Dauth.private-key-path=/secret/fake-privatekey.der -Dspring.datasource.password=postgres -Dserver.port=8080
     links:
-    - "postgres:postgres"
+      - "postgres:postgres"
+    volumes:
+      - "./data/secret/:/secret/"
     ports:
-     - "8080"
+      - "8080"
