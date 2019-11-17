@@ -1,4 +1,4 @@
-name: Java CI
+name: BackEnd CI
 
 on: [push]
 
@@ -13,5 +13,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
+    - name: Build UserAPI
       run: mvn -B package --file ./userapi/pom.xml
