@@ -31,7 +31,7 @@ open class AuthControllerTest : BaseControllerTest() {
     lateinit var authService: AuthService
 
     @Nested
-    inner class LoginTest : AuthControllerTest() {
+    inner class LoginTest {
 
         @Test
         fun `should not login user`() {
@@ -67,7 +67,7 @@ open class AuthControllerTest : BaseControllerTest() {
     }
 
     @Nested
-    inner class SignUpTest : AuthControllerTest() {
+    inner class SignUpTest {
         @Test
         fun `should sign up user`() {
             val signUpRequest = SignUpRequest("phone", "secret")
@@ -116,7 +116,7 @@ open class AuthControllerTest : BaseControllerTest() {
     }
 
     @Nested
-    inner class OtpTest : AuthControllerTest() {
+    inner class OtpTest {
         @Test
         fun `should check otp with success`() {
             every { authService.confirmOtp(any()) } returns Token("token", BasicUserInfo(
