@@ -5,10 +5,11 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Null
 
 data class IncidentDto(
-        @Null
+        @field:Null
         var id: Long? = null,
-        var createdDate: LocalDateTime,
+        @field:Null
+        var createdDate: LocalDateTime? = null,
         var location: LocationDto,
-        @NotBlank
+        @field:NotBlank
         var description: String
 )

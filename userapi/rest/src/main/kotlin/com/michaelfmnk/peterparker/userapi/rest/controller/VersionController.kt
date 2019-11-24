@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @RestController
 class VersionController(private val clock: Clock) {
 
-    @GetMapping(Api.VERSION)
+    @GetMapping(Api.Common.VERSION)
     fun getVersion() = VersionDto(LocalDateTime.now(clock).toString())
 
 }

@@ -30,6 +30,11 @@ class JwtFilter(
         }
 
         val token = request.getHeader("Authorization")
+        token?.let { setAuthentication(it.substring(7)) }
+        chain.doFilter(request, response)
+    }
+
+    private fun setAuthentication(token: String) {
         val userId = parseUserId(token)
 
         logger.info("checking authentication for user_id=$userId")
@@ -40,7 +45,6 @@ class JwtFilter(
                 SecurityContextHolder.getContext().authentication = UserAuthentication(user)
             }
         }
-        chain.doFilter(request, response)
     }
 
     private fun parseUserId(token: String): Long? = try {

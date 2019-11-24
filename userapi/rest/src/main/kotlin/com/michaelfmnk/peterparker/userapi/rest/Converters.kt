@@ -9,7 +9,7 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Point
 
-fun Incident.toDto() = IncidentDto(id, createdDate!!, location.toDto())
+fun Incident.toDto() = IncidentDto(id, createdDate!!, location.toDto(), description)
 
 fun Point.toDto() = LocationDto(x, y)
 

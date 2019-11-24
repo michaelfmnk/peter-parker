@@ -31,7 +31,7 @@ class IncidentTest {
         // given
         val point = createPoint(x, y)
 
-        val incident = Incident("documentId", LocalDateTime.now(), point)
+        val incident = Incident("documentId", LocalDateTime.now(), point, "description")
 
         // when
         val savedEntity = incidentRepository.save(incident)
