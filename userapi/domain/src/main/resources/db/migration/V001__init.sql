@@ -47,6 +47,7 @@ CREATE TABLE incidents
     id           SERIAL PRIMARY KEY,
     document_id  VARCHAR                     NOT NULL,
     created_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    description  VARCHAR,
     location     geometry(Point)
 );
 

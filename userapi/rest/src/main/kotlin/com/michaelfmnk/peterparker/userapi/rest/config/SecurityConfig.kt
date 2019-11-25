@@ -20,7 +20,7 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
 
     private val excludedPaths = listOf(
-            Api.VERSION,
+            Api.Common.VERSION,
             Api.BASE_PATH + Api.Auth.LOGIN,
             Api.BASE_PATH + Api.Auth.SIGN_UP,
             Api.BASE_PATH + Api.Auth.CODE
@@ -34,7 +34,7 @@ class SecurityConfig(
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(*excludedPaths.toTypedArray()).permitAll()
-                .anyRequest().authenticated().and()
+                .anyRequest().fullyAuthenticated().and()
                 .addFilterAfter(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
                 .headers().cacheControl().disable()
     }
