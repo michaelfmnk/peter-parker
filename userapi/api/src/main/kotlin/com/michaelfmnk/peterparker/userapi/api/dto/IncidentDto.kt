@@ -11,5 +11,6 @@ data class IncidentDto(
         var createdDate: LocalDateTime? = null,
         var location: LocationDto,
         @field:NotBlank
-        var description: String
+        var description: String,
+        var distance: Double? = null
 )

@@ -7,10 +7,12 @@ import com.michaelfmnk.peterparker.userapi.api.Api
 import com.michaelfmnk.peterparker.userapi.api.dto.IncidentDto
 import com.michaelfmnk.peterparker.userapi.api.dto.LocationDto
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
+import com.michaelfmnk.peterparker.userapi.domain.pointOf
 import com.michaelfmnk.peterparker.userapi.domain.service.IncidentService
 import com.michaelfmnk.peterparker.userapi.rest.doing
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.CapturingSlot
+import io.mockk.every
 import io.mockk.verify
 import io.restassured.http.ContentType
 import io.restassured.module.mockmvc.RestAssuredMockMvc
@@ -19,6 +21,10 @@ import org.hamcrest.Matchers
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import java.time.LocalDateTime
 
 @WebMvcTest(IncidentController::class)
 class IncidentControllerTest : BaseControllerTest() {
@@ -89,6 +95,35 @@ class IncidentControllerTest : BaseControllerTest() {
                     .body("errors.field", Matchers.containsInAnyOrder("description", "id"))
                     .body("errors.reason", Matchers.containsInAnyOrder("must be null", "must not be blank"))
         }
+    }
+
+    @Nested
+    inner class GetIncidentsTest {
+
+        @Test
+        fun `should get incidents`() {
+            val data = listOf(
+                    Incident(createdDate = LocalDateTime.now(), location = pointOf(47.79813, 35.188075), description = "Zaporizhia"),
+                    Incident(createdDate = LocalDateTime.now(), location = pointOf(-33.882478, 18.313917), description = "Cape Town"),
+                    Incident(createdDate = LocalDateTime.now(), location = pointOf(50.832983, 4.497808), description = "Brussel")
+            )
+
+            every { incidentService.getIncidents(any(), any()) } returns PageImpl(data, PageRequest.of(0, 3), 1000)
+
+            RestAssuredMockMvc.given()
+                    .jwtAuth(15, "test@email.com")
+                    .queryParam("lat", 47.79813)
+                    .queryParam("lng", 5.188075)
+                    .contentType(ContentType.JSON)
+                    .doing()
+                    .get(Api.BASE_PATH + Api.Incidents.INCIDENTS).prettyPeek()
+                    .then()
+                    .statusCode(HttpStatus.SC_OK)
+
+        }
+
+
+
     }
 
 }

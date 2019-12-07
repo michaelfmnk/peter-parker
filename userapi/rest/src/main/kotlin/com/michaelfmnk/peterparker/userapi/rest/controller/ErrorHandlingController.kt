@@ -66,7 +66,7 @@ class ErrorHandlingController {
         return bindingResult.fieldErrors
                 .map {
                     ValidationError(
-                            field = it.field,
+                            field = it.field.trim('_'),
                             rejectedValue = it.rejectedValue,
                             reason = it.defaultMessage
                     )
