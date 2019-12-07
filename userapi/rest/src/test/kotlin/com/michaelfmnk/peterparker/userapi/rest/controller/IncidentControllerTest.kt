@@ -21,7 +21,6 @@ import org.hamcrest.Matchers
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import java.time.LocalDateTime
@@ -121,8 +120,6 @@ class IncidentControllerTest : BaseControllerTest() {
                     .statusCode(HttpStatus.SC_OK)
 
         }
-
-
 
     }
 

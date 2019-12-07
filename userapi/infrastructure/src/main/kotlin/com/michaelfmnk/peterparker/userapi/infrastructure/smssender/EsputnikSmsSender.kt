@@ -18,4 +18,14 @@ class EsputnikSmsSender(
 
         esputnikRestClient.sendSms(sms)
     }
+
+    override fun sendParkingWarning(phone: String, plateNumber: String) {
+        val sms = EsputnikSms(
+                from = "Peter Parker App",
+                phoneNumbers = listOf(phone),
+                text = "Seems like you parked wrong. Please, check your car (plate number $plateNumber)"
+        )
+
+        esputnikRestClient.sendSms(sms)
+    }
 }

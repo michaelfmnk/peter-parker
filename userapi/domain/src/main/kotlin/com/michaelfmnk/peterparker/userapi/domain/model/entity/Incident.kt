@@ -12,6 +12,7 @@ import javax.persistence.Table
 @Table(name = "incidents")
 class Incident(
         val documentId: String? = null,
+        val plateNumber: String? = null,
         val createdDate: LocalDateTime? = null,
         @field:Column(columnDefinition = "geometry(Point,4326)")
         val location: Point,

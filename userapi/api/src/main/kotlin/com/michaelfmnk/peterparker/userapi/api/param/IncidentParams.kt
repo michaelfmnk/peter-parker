@@ -8,8 +8,9 @@ class IncidentParams(override val size: Int = 10,
                      @field:NotNull
                      private val lat: Double? = null,
                      @field:NotNull
-                     private val lng: Double? = null) : Pagination {
+                     private val lng: Double? = null,
+                     private val plateNumber: String? = null) : Pagination {
 
-    val _lat get() = lat!!
-    val _lng get() = lng!!
+    val iLat get() = lat!!
+    val iLng get() = lng!!
 }

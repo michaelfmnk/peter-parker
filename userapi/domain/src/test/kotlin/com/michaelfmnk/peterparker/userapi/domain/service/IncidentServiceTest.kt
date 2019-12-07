@@ -4,17 +4,25 @@ import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.michaelfmnk.peterparker.userapi.domain.DomainTestConfiguration
+import com.michaelfmnk.peterparker.userapi.domain.event.IncidentCreatedEvent
+import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
 import com.michaelfmnk.peterparker.userapi.domain.pointOf
 import com.michaelfmnk.peterparker.userapi.domain.repository.IncidentRepository
+import io.mockk.CapturingSlot
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.jdbc.SqlGroup
+import java.time.LocalDateTime
 
 
 @DataJpaTest
@@ -27,12 +35,50 @@ internal class IncidentServiceTest {
     lateinit var incidentRepository: IncidentRepository
 
     lateinit var incidentService: IncidentService
+    lateinit var eventPublisher: ApplicationEventPublisher
 
     @BeforeEach
     internal fun setUp() {
-        incidentService = IncidentService(incidentRepository)
+        eventPublisher = mockk(relaxUnitFun = true)
+        incidentService = IncidentService(incidentRepository, eventPublisher)
     }
 
+    @Test
+    internal fun `should create incident`() {
+        // given
+        val incident = Incident(
+                documentId = "documentId",
+                createdDate = LocalDateTime.now(),
+                location = pointOf(1, 9),
+                description = "description"
+        )
+
+        // when
+        val id = incidentService.createIncident(incident, 7).id ?: fail("id not provided")
+
+        // then
+        val incidentFromDb = incidentRepository.getOne(id).also { it.id = null }
+        assertThat(incidentFromDb).isEqualTo(incident)
+    }
+
+    @Test
+    internal fun `should publish incident creation event`() {
+        // given
+        val incident = Incident(
+                documentId = "documentId",
+                createdDate = LocalDateTime.now(),
+                location = pointOf(1, 9),
+                description = "description"
+        )
+
+        // when
+        val id = incidentService.createIncident(incident, 7).id ?: fail("id not provided")
+
+        // then
+        val capturingSlot = CapturingSlot<IncidentCreatedEvent>()
+        verify { eventPublisher.publishEvent(capture(capturingSlot)) }
+        assertThat(capturingSlot.captured.incident.id).isEqualTo(id)
+    }
 
     @Test
     internal fun `should get second page of incidents`() {

@@ -14,6 +14,7 @@ class User(
         var enabled: Boolean = false,
         var lastName: String? = null,
         var firstName: String? = null,
+        var plateNumber: String? = null,
         @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
         val otps: MutableList<Otp> = mutableListOf()
 ) : JpaPersistable<Long>() {

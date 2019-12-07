@@ -15,4 +15,11 @@ interface IncidentRepository : JpaRepository<Incident, Long> {
                 ORDER BY st_distance_sphere(inc.location, POINT (:#{#point.x}, :#{#point.x})\:\:geometry)""",
             countQuery = "SELECT count(1) FROM incidents")
     fun findNearest(@Param("point") point: Point, pageable: Pageable): Page<Incident>
+
+    @Query(nativeQuery = true,
+            value = """SELECT * FROM incidents inc 
+                WHERE STRPOS(plate_number, :plateNumber) > 0
+                ORDER BY st_distance_sphere(inc.location, POINT (:#{#point.x}, :#{#point.x})\:\:geometry)""",
+            countQuery = "SELECT count(1) FROM incidents WHERE STRPOS(plate_number, :plateNumber) > 0")
+    fun findNearest(@Param("point") point: Point, @Param("plateNumber") plateNumber: String, pageable: Pageable): Page<Incident>
 }

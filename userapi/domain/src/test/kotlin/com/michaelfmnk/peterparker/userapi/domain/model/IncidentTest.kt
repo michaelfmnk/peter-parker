@@ -17,6 +17,7 @@ import org.locationtech.spatial4j.distance.DistanceUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ContextConfiguration
 import java.time.LocalDateTime
@@ -35,7 +36,12 @@ class IncidentTest {
         // given
         val point = pointOf(x, y)
 
-        val incident = Incident("documentId", LocalDateTime.now(), point, "description")
+        val incident = Incident(
+                documentId = "documentId",
+                createdDate = LocalDateTime.now(),
+                location = point,
+                description = "description"
+        )
 
         // when
         val savedEntity = incidentRepository.save(incident)
@@ -47,7 +53,7 @@ class IncidentTest {
     }
 
     @Test
-    fun shouldGetWithSortingByDistance() {
+    fun `should get with sorting by distance`() {
         val tenMeters = 0.01 * DistanceUtils.KM_TO_DEG
         val homeTown = pointOf(48.517607, 34.967458) // Dnipro
         val points = listOf(
@@ -81,9 +87,92 @@ class IncidentTest {
         }
     }
 
-    private fun addIncidentInLocation(lat: Double, lng: Double) {
+    @Test
+    fun `should get with sorting by distance and pagination`() {
+        val tenMeters = 0.01 * DistanceUtils.KM_TO_DEG
+        val homeTown = pointOf(48.517607, 34.967458) // Dnipro
+        val points = listOf(
+                47.79813 to 35.188075, // Zaporizhia,
+                -33.882478 to 18.313917, // Cape Town
+                50.459935 to 30.530606, // Kyiv
+                50.832983 to 4.497808 // Brussel
+        )
+        points.forEach { addIncidentInLocation(it.first, it.second) }
+
+        val sortedPointsPage = incidentRepository.findNearest(homeTown, PageRequest.of(1, 1))
+
+
+        sortedPointsPage.content.forEach {
+            println("$it distanceTo: ${it.distanceTo(homeTown)}")
+        }
+        assertThat(sortedPointsPage.content).all {
+            hasSize(1)
+
+            transform { it[0].id }.isEqualTo(3)
+            transform { it[0].distanceTo(homeTown) }.isCloseTo(525.6977396064317, tenMeters)
+        }
+        assertThat(sortedPointsPage.totalElements).isEqualTo(4)
+    }
+
+    @Test
+    fun `should find by plate number`() {
+        val homeTown = pointOf(48.517607, 34.967458) // Dnipro
+
+        addIncidentInLocation(47.79813, 35.188075, "809080")
+        addIncidentInLocation(47.79813, 35.188075, "809070")
+        addIncidentInLocation(50.832983, 50.832983, "804080")
+
+        val sortedPointsPage = incidentRepository.findNearest(homeTown, "809", Pageable.unpaged())
+
+
+        sortedPointsPage.content.forEach {
+            println("$it distanceTo: ${it.distanceTo(homeTown)}")
+        }
+        assertThat(sortedPointsPage.content).all {
+            hasSize(2)
+
+            transform { it[0].id }.isEqualTo(1)
+            transform { it[0].plateNumber }.isEqualTo("809080")
+            transform { it[1].id }.isEqualTo(2)
+            transform { it[1].plateNumber }.isEqualTo("809070")
+
+        }
+    }
+
+    @Test
+    fun `should find by plate number and with pagination`() {
+        val homeTown = pointOf(48.517607, 34.967458) // Dnipro
+
+        addIncidentInLocation(47.79813, 35.188075, "809080")
+        addIncidentInLocation(47.79813, 35.188075, "809070")
+        addIncidentInLocation(50.832983, 50.832983, "804080")
+
+        val sortedPointsPage = incidentRepository.findNearest(homeTown, "809", PageRequest.of(1, 1))
+
+
+        sortedPointsPage.content.forEach {
+            println("$it distanceTo: ${it.distanceTo(homeTown)}")
+        }
+        assertThat(sortedPointsPage.content).all {
+            hasSize(1)
+
+            transform { it[0].id }.isEqualTo(2)
+            transform { it[0].plateNumber }.isEqualTo("809070")
+
+        }
+        assertThat(sortedPointsPage.totalElements).isEqualTo(2)
+        assertThat(sortedPointsPage.totalPages).isEqualTo(2)
+    }
+
+    private fun addIncidentInLocation(lat: Double, lng: Double, plateNumber: String? = null) {
         val point = pointOf(lat, lng)
-        val incident = Incident("documentId", LocalDateTime.now(), point, "description")
+        val incident = Incident(
+                documentId = "documentId",
+                plateNumber = plateNumber,
+                createdDate = LocalDateTime.now(),
+                location = point,
+                description = "description"
+        )
         incidentRepository.save(incident)
     }
 }

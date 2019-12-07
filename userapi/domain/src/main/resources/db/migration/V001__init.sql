@@ -13,13 +13,14 @@ VALUES (1, 'ADMIN'),
 
 CREATE TABLE users
 (
-    id         SERIAL PRIMARY KEY,
-    phone      VARCHAR NOT NULL,
-    password   VARCHAR NOT NULL,
-    first_name VARCHAR,
-    last_name  VARCHAR,
-    enabled    BOOLEAN NOT NULL DEFAULT FALSE,
-    role_id    INT REFERENCES roles (id)
+    id           SERIAL PRIMARY KEY,
+    phone        VARCHAR NOT NULL,
+    password     VARCHAR NOT NULL,
+    first_name   VARCHAR,
+    last_name    VARCHAR,
+    enabled      BOOLEAN NOT NULL DEFAULT FALSE,
+    role_id      INT REFERENCES roles (id),
+    plate_number VARCHAR
 );
 
 CREATE TABLE otps
@@ -48,6 +49,7 @@ CREATE TABLE incidents
     document_id  VARCHAR                     NOT NULL,
     created_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
     description  VARCHAR,
+    plate_number VARCHAR,
     location     geometry(Point)
 );
 

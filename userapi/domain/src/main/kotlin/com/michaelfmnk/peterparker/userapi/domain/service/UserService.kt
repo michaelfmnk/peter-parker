@@ -13,4 +13,7 @@ class UserService(
     fun findUserById(userId: Long): User = userRepository.findById(userId)
             .orElseThrow { EntityNotFoundException("user $userId was not found") }
 
+    fun findUserByPlateNumber(plateNumber: String): User = userRepository.findByPlateNumber(plateNumber)
+            ?: throw EntityNotFoundException("user with plateNumber: $plateNumber was not found")
+
 }
