@@ -4,4 +4,3 @@ VALUES (1, 'doc1', NOW(), 'Zaporizhia', POINT(47.79813, 35.188075)::geometry),
        (3, 'doc3', NOW(), 'Kyiv', POINT(50.459935, 30.530606)::geometry),
        (4, 'doc4', NOW(), 'Brussel', POINT(50.832983, 4.497808)::geometry);
 
-ALTER SEQUENCE incidents_id_seq RESTART WITH 1000;

@@ -20,9 +20,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.jdbc.Sql
+import org.springframework.test.context.jdbc.SqlGroup
 import java.time.LocalDateTime
 
 @DataJpaTest
+@SqlGroup(value = [Sql(value = ["classpath:clear.sql"])])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = [DomainTestConfiguration::class])
 class IncidentTest {
@@ -73,16 +76,16 @@ class IncidentTest {
         assertThat(sortedPointsPage.content).all {
             hasSize(4)
 
-            transform { it[0].id }.isEqualTo(1)
+            transform { it[0].id }.isEqualTo(1000)
             transform { it[0].distanceTo(homeTown) }.isCloseTo(69.91643870993182, tenMeters)
 
-            transform { it[1].id }.isEqualTo(3)
+            transform { it[1].id }.isEqualTo(1002)
             transform { it[1].distanceTo(homeTown) }.isCloseTo(525.6977396064317, tenMeters)
 
-            transform { it[2].id }.isEqualTo(4)
+            transform { it[2].id }.isEqualTo(1003)
             transform { it[2].distanceTo(homeTown) }.isCloseTo(3396.4456700265664, tenMeters)
 
-            transform { it[3].id }.isEqualTo(2)
+            transform { it[3].id }.isEqualTo(1001)
             transform { it[3].distanceTo(homeTown) }.isCloseTo(8179.749011169173, tenMeters)
         }
     }
@@ -108,7 +111,7 @@ class IncidentTest {
         assertThat(sortedPointsPage.content).all {
             hasSize(1)
 
-            transform { it[0].id }.isEqualTo(3)
+            transform { it[0].id }.isEqualTo(1002)
             transform { it[0].distanceTo(homeTown) }.isCloseTo(525.6977396064317, tenMeters)
         }
         assertThat(sortedPointsPage.totalElements).isEqualTo(4)
@@ -131,9 +134,9 @@ class IncidentTest {
         assertThat(sortedPointsPage.content).all {
             hasSize(2)
 
-            transform { it[0].id }.isEqualTo(1)
+            transform { it[0].id }.isEqualTo(1000)
             transform { it[0].plateNumber }.isEqualTo("809080")
-            transform { it[1].id }.isEqualTo(2)
+            transform { it[1].id }.isEqualTo(1001)
             transform { it[1].plateNumber }.isEqualTo("809070")
 
         }
@@ -156,7 +159,7 @@ class IncidentTest {
         assertThat(sortedPointsPage.content).all {
             hasSize(1)
 
-            transform { it[0].id }.isEqualTo(2)
+            transform { it[0].id }.isEqualTo(1001)
             transform { it[0].plateNumber }.isEqualTo("809070")
 
         }
