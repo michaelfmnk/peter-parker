@@ -14,7 +14,7 @@ class ConvertersKtTest {
     @Test
     fun `should convert Incident correctly`() {
         val pointCoords = Coordinate(90.7, 60.6)
-        val entity = Incident("", LocalDateTime.now(), GeometryFactory().createPoint(pointCoords), "desc").apply {
+        val entity = Incident("", "plateNum", LocalDateTime.now(), GeometryFactory().createPoint(pointCoords), "desc").apply {
             id = 1L
         }
 
