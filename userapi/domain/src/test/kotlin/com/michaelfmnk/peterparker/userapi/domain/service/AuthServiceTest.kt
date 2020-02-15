@@ -73,6 +73,7 @@ class AuthServiceTest {
                 lastName = "lastName",
                 role = RoleType.ADMIN.instance
         ).apply { id = 10 }
+
         every { userRepository.findByPhone(any()) } returns user
         every { passwordEncoder.matches(any(), any()) } returns false
 
