@@ -2,8 +2,10 @@ import axios from 'axios';
 import queryString from 'query-string';
 
 import {failAction, SEND_REQUEST, startAction, successAction} from '../redux/actions/types';
+import {getToken, isLoggedIn} from "../redux/selectors/session";
+import {logOut} from "../redux/actions/session";
 
-axios.defaults.baseURL = "http://127.0.0.1";
+axios.defaults.baseURL = "http://127.0.0.1:8080";
 axios.defaults.timeout = 30000;
 
 const instance = axios.create({
@@ -28,11 +30,25 @@ export const callApi = (headers, method = 'get', endpoint, body, params, respons
 export const CALL_API = Symbol('CALL_API');
 
 function handleError(error, actionWrapper, dispatch, type) {
+    if (error.response.status === 401) {
+        dispatch(logOut());
+    }
+
     return dispatch({
         type: failAction(type),
         response: error.response,
         error: (error.response && error.response.data) || 'Error happened during API call',
     });
+}
+
+function getHeaders(store) {
+    const headers = {};
+
+    if (isLoggedIn(store)) {
+        headers.Authorization = `Bearer ${getToken(store)}`;
+    }
+
+    return headers;
 }
 
 export default store => next => (action) => {
@@ -80,7 +96,7 @@ export default store => next => (action) => {
         type: SEND_REQUEST,
         requestType: type,
     });
-    const headers = {};
+    const headers = getHeaders(store.getState());
 
     return callApi(headers, method, endpoint, body, params, responseType)
         .then(
