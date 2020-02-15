@@ -7,6 +7,7 @@
         <groupId>com.michaelfmnk.peterparker</groupId>
         <artifactId>userapi</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
     </parent>
 
     <groupId>com.michaelfmnk.peterparker.userapi</groupId>
@@ -14,11 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>domain</name>
     <description>Peter Parker User API Domain Layer</description>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <kotlin.version>1.3.50</kotlin.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -49,14 +45,6 @@
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
@@ -73,19 +61,23 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.2.0.RELEASE</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
             <version>1.12.2</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -110,97 +102,45 @@
             <artifactId>hibernate-jpamodelgen</artifactId>
         </dependency>
     </dependencies>
-
     <build>
-        <sourceDirectory>src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.version}</version>
             </plugin>
             <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build.helper.plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>compile</goal>
+                            <goal>add-source</goal>
                         </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/kotlin</source>
+                            </sources>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>test-compile</id>
                         <phase>test-compile</phase>
                         <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>kapt</id>
-                        <goals>
-                            <goal>kapt</goal>
+                            <goal>add-test-source</goal>
                         </goals>
                         <configuration>
-                            <sourceDirs>
-                                <sourceDir>src/main/kotlin</sourceDir>
-                                <sourceDir>src/test/kotlin</sourceDir>
-                            </sourceDirs>
-                            <annotationProcessorPaths>
-                                <annotationProcessorPath>
-                                    <groupId>org.hibernate</groupId>
-                                    <artifactId>hibernate-jpamodelgen</artifactId>
-                                    <version>5.3.7.Final</version>
-                                </annotationProcessorPath>
-                            </annotationProcessorPaths>
+                            <sources>
+                                <source>${basedir}/src/test/kotlin</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <args>
-                        <arg>-Xjsr305=strict</arg>
-                    </args>
-                    <compilerPlugins>
-                        <plugin>spring</plugin>
-                        <plugin>jpa</plugin>
-                    </compilerPlugins>
-                    <jvmTarget>1.8</jvmTarget>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-allopen</artifactId>
-                        <version>${kotlin.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-noarg</artifactId>
-                        <version>${kotlin.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
-
-    <execution>
-        <id>kapt</id>
-        <goals>
-            <goal>kapt</goal>
-        </goals>
-        <configuration>
-            <sourceDirs>
-                <sourceDir>src/main/kotlin</sourceDir>
-            </sourceDirs>
-            <annotationProcessorPaths>
-                <annotationProcessorPath>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-jpamodelgen</artifactId>
-                    <version>5.3.2.Final</version>
-                </annotationProcessorPath>
-            </annotationProcessorPaths>
-        </configuration>
-    </execution>
 
 </project>

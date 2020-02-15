@@ -1,1 +1,4 @@
-DELETE FROM incidents;
+DELETE
+FROM incidents;
+
+ALTER SEQUENCE incidents_id_seq RESTART WITH 1000;

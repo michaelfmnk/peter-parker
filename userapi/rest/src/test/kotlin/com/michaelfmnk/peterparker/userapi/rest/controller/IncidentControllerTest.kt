@@ -13,6 +13,7 @@ import com.michaelfmnk.peterparker.userapi.rest.doing
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.CapturingSlot
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.verify
 import io.restassured.http.ContentType
 import io.restassured.module.mockmvc.RestAssuredMockMvc
@@ -41,12 +42,14 @@ class IncidentControllerTest : BaseControllerTest() {
                     description = "my own description"
             )
 
+            every { incidentService.createIncident(any(), any()) } returns mockk()
+
             RestAssuredMockMvc.given()
                     .jwtAuth(15, "test@email.com")
                     .contentType(ContentType.JSON)
                     .body(incident)
                     .doing()
-                    .post(Api.BASE_PATH + Api.Incidents.INCIDENTS)
+                    .post(Api.BASE_PATH + Api.Incidents.INCIDENTS).prettyPeek()
                     .then()
                     .statusCode(HttpStatus.SC_OK)
 
