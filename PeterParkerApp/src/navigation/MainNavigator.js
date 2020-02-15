@@ -1,8 +1,24 @@
 import {createSwitchNavigator} from 'react-navigation';
-import AuthLoadingScreen from '../containers/AuthLoadingScreen';
+import AuthScreen from '../containers/AuthScreen';
+import MapScreen from "../containers/MapScreen";
+import nav from '../services/navigation'
+import ReportedIncidentsScreen from "../containers/ReportedIncidentsScreen";
+import {createBottomTabNavigator} from "react-navigation-tabs";
 
-export default createSwitchNavigator({
-    AuthLoading: AuthLoadingScreen,
+const MainNavigator = isLoggedIn => createSwitchNavigator({
+    AuthScreen: AuthScreen,
+    MapScreen: MapScreen,
+    MainReporterScreen: createBottomTabNavigator({
+        'Reported Cases': {screen: ReportedIncidentsScreen},
+        'Own Cases': {screen: MapScreen},
+        'Settings': {screen: MapScreen},
+    }, {
+        initialRouteName: 'Reported Cases'
+    }),
 }, {
-    initialRouteName: 'AuthLoading',
+    initialRouteName: isLoggedIn ? 'MainReporterScreen' : 'AuthScreen',
 });
+
+nav.setTopLevelNavigator(navigator);
+
+export default MainNavigator;

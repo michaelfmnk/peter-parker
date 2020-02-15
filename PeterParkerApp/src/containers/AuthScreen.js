@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {signUp} from '../redux/actions/session';
+import {logIn} from '../redux/actions/session';
 import {StyleSheet, View} from 'react-native';
 import {Body, Button, Container, Content, Header, Input, Item, Text, Title} from 'native-base';
 
 
-class AuthLoadingScreen extends Component {
+class AuthScreen extends Component {
     state = {
         phone: '',
         password: '',
@@ -14,7 +14,7 @@ class AuthLoadingScreen extends Component {
 
     onSubmit = () => {
         const {phone, password} = this.state;
-        this.props.signUp(phone, password);
+        this.props.logIn(phone, password);
     };
 
     onPhoneChanged = (value) => {
@@ -45,6 +45,8 @@ class AuthLoadingScreen extends Component {
                         <Input
                             placeholder="Password"
                             value={this.state.password}
+                            autoCapitalize="none"
+                            secureTextEntry={true}
                             onChangeText={this.onPasswordChanged}
                         />
                     </Item>
@@ -60,8 +62,8 @@ class AuthLoadingScreen extends Component {
     }
 }
 
-AuthLoadingScreen.propTypes = {
-    signUp: PropTypes.func,
+AuthScreen.propTypes = {
+    login: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-    signUp,
+    logIn,
 };
 
 
@@ -86,4 +88,4 @@ function mapStateToProps(state) {
     return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthLoadingScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
