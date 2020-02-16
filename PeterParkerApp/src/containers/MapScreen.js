@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import {Container} from 'native-base';
 import {StyleSheet} from 'react-native';
-import {Body, Container, Header, Title} from 'native-base';
 import MapView from "react-native-maps";
+import AppHeader from "../components/AppHeader";
 
 
 class MapScreen extends Component {
@@ -9,12 +10,7 @@ class MapScreen extends Component {
     render() {
         return (
             <Container>
-                <Header>
-                    <Body>
-                        <Title>Peter Parker</Title>
-                    </Body>
-                </Header>
-
+                <AppHeader title="Incidents Map"/>
                 <MapView
                     style={styles.map}
                     showsBuildings={false}
@@ -27,7 +23,6 @@ class MapScreen extends Component {
                     }}
                 />
             </Container>
-
         );
     }
 }

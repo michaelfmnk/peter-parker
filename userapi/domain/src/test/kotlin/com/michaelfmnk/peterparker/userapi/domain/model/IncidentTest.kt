@@ -43,7 +43,8 @@ class IncidentTest {
                 documentId = "documentId",
                 createdDate = LocalDateTime.now(),
                 location = point,
-                description = "description"
+                description = "description",
+                reporterId = 1
         )
 
         // when
@@ -174,7 +175,8 @@ class IncidentTest {
                 plateNumber = plateNumber,
                 createdDate = LocalDateTime.now(),
                 location = point,
-                description = "description"
+                description = "description",
+                reporterId = 1
         )
         incidentRepository.save(incident)
     }

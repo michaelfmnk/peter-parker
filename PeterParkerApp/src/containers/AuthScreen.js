@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {logIn} from '../redux/actions/session';
 import {StyleSheet, View} from 'react-native';
-import {Body, Button, Container, Content, Header, Input, Item, Text, Title} from 'native-base';
+import {Body, Button, Container, Header, Input, Item, Text, Title} from 'native-base';
 
 
 class AuthScreen extends Component {
@@ -33,7 +33,7 @@ class AuthScreen extends Component {
                         <Title>Login</Title>
                     </Body>
                 </Header>
-                <Content>
+                <View>
                     <Item>
                         <Input
                             placeholder="Phone"
@@ -55,7 +55,7 @@ class AuthScreen extends Component {
                             <Text>Submit</Text>
                         </Button>
                     </View>
-                </Content>
+                </View>
             </Container>
 
         );

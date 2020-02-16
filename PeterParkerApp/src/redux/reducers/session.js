@@ -4,6 +4,7 @@ import {LOG_IN, LOG_OUT, SIGN_UP} from '../actions/session';
 const initialState = {
     waitingForCode: false,
     token: null,
+    role: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -16,7 +17,7 @@ export default function reducer(state = initialState, action) {
             console.log(action.response.data.token);
             return {
                 ...state,
-                token: action.response.data.token,
+                ...action.response.data,
             };
         }
         case LOG_OUT: {

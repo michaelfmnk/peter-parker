@@ -3,6 +3,6 @@ import session from "./session";
 
 export function* rootSaga() {
     yield all([
-        fork(session),
+        fork(session)
     ]);
 }
