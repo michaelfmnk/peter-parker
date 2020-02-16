@@ -50,7 +50,8 @@ internal class IncidentServiceTest {
                 documentId = "documentId",
                 createdDate = LocalDateTime.now(),
                 location = pointOf(1, 9),
-                description = "description"
+                description = "description",
+                reporterId = 1
         )
 
         // when
@@ -68,7 +69,8 @@ internal class IncidentServiceTest {
                 documentId = "documentId",
                 createdDate = LocalDateTime.now(),
                 location = pointOf(1, 9),
-                description = "description"
+                description = "description",
+                reporterId = 1
         )
 
         // when

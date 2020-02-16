@@ -105,9 +105,9 @@ class IncidentControllerTest : BaseControllerTest() {
         @Test
         fun `should get incidents`() {
             val data = listOf(
-                    Incident(createdDate = LocalDateTime.now(), location = pointOf(47.79813, 35.188075), description = "Zaporizhia"),
-                    Incident(createdDate = LocalDateTime.now(), location = pointOf(-33.882478, 18.313917), description = "Cape Town"),
-                    Incident(createdDate = LocalDateTime.now(), location = pointOf(50.832983, 4.497808), description = "Brussel")
+                    Incident(createdDate = LocalDateTime.now(), location = pointOf(47.79813, 35.188075), description = "Zaporizhia", reporterId = 1),
+                    Incident(createdDate = LocalDateTime.now(), location = pointOf(-33.882478, 18.313917), description = "Cape Town", reporterId = 1),
+                    Incident(createdDate = LocalDateTime.now(), location = pointOf(50.832983, 4.497808), description = "Brussel", reporterId = 1)
             )
 
             every { incidentService.getIncidents(any(), any()) } returns PageImpl(data, PageRequest.of(0, 3), 1000)

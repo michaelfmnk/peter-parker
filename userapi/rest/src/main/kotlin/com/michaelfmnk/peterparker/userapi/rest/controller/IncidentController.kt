@@ -21,7 +21,7 @@ class IncidentController(
 
     @PostMapping(Api.Incidents.INCIDENTS)
     fun createIncident(@Validated @RequestBody incident: IncidentDto, auth: UserAuthentication) {
-        incidentService.createIncident(incident.toEntity(), auth.userId)
+        incidentService.createIncident(incident.toEntity(auth.userId), auth.userId)
     }
 
     @GetMapping(Api.Incidents.INCIDENTS)
@@ -29,6 +29,14 @@ class IncidentController(
         val userLocation = pointOf(params.iLat, params.iLng)
 
         val page = incidentService.getIncidents(userLocation, params.toJpaPageable())
+        return page.toDto(userLocation)
+    }
+
+    @GetMapping(Api.Incidents.REPORTED_INCIDENTS)
+    fun getReportedIncidents(@Validated params: IncidentParams, auth: UserAuthentication): PageDto<IncidentDto> {
+        val userLocation = pointOf(params.iLat, params.iLng)
+
+        val page = incidentService.getReportedIncidents(userLocation, auth.userId, params.toJpaPageable())
         return page.toDto(userLocation)
     }
 }

@@ -18,6 +18,13 @@ interface IncidentRepository : JpaRepository<Incident, Long> {
 
     @Query(nativeQuery = true,
             value = """SELECT * FROM incidents inc 
+                WHERE inc.reporter_id = :userId
+                ORDER BY st_distance_sphere(inc.location, POINT (:#{#point.x}, :#{#point.x})\:\:geometry)""",
+            countQuery = "SELECT count(1) FROM incidents WHERE reporter_id = :userId")
+    fun findNearestByReporter(@Param("point") point: Point, @Param("userId") userId: Long, pageable: Pageable): Page<Incident>
+
+    @Query(nativeQuery = true,
+            value = """SELECT * FROM incidents inc 
                 WHERE STRPOS(plate_number, :plateNumber) > 0
                 ORDER BY st_distance_sphere(inc.location, POINT (:#{#point.x}, :#{#point.x})\:\:geometry)""",
             countQuery = "SELECT count(1) FROM incidents WHERE STRPOS(plate_number, :plateNumber) > 0")

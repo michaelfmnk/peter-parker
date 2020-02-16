@@ -5,10 +5,14 @@ const initialState = {
     reported: {
         data: [],
         total: 0,
+        page: 0,
+        size: 0,
     },
-    received: {
+    own: {
         data: [],
         total: 0,
+        page: 0,
+        size: 0,
     },
 };
 
@@ -17,7 +21,12 @@ export default function reducer(state = initialState, action) {
         case successAction(GET_REPORTED_INCIDENTS): {
             return {
                 ...state,
-                reported: action.response.data,
+                reported: {
+                    data: action.response.data.content,
+                    total: action.response.data.total,
+                    page: action.response.data.page,
+                    size: action.response.data.size,
+                },
             };
         }
         default: {

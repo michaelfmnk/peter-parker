@@ -3,12 +3,16 @@ package com.michaelfmnk.peterparker.userapi.rest.config
 import com.michaelfmnk.peterparker.userapi.api.Api
 import com.michaelfmnk.peterparker.userapi.domain.service.JwtService
 import com.michaelfmnk.peterparker.userapi.domain.service.UserService
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.firewall.DefaultHttpFirewall
+
+import org.springframework.security.web.firewall.HttpFirewall
 
 
 @Configuration
@@ -40,5 +44,8 @@ class SecurityConfig(
     }
 
     private fun jwtFilter() = JwtFilter(jwtService, userService, excludedPaths)
-
+    @Bean
+    fun defaultHttpFirewall(): HttpFirewall {
+        return DefaultHttpFirewall()
+    }
 }

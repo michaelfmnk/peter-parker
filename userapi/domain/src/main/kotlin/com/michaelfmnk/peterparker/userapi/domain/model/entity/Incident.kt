@@ -16,7 +16,8 @@ class Incident(
         val createdDate: LocalDateTime? = null,
         @field:Column(columnDefinition = "geometry(Point,4326)")
         val location: Point,
-        val description: String
+        val description: String,
+        val reporterId: Long
 ) : JpaPersistable<Long>() {
 
     fun distanceTo(toPoint: Point): Double {

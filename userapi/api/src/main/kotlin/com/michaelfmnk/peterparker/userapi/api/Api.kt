@@ -15,6 +15,8 @@ object Api {
 
     object Incidents {
         const val INCIDENTS = "/incidents"
+        const val REPORTED_INCIDENTS = "/incidents/reported"
+        const val OWN_INCIDENTS = "/incidents/own"
     }
 
 }

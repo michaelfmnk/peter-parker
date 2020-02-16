@@ -29,7 +29,7 @@ class AuthService(
         }
 
         val jwtToken = jwtService.generateToken(user)
-        return Token(jwtToken, BasicUserInfo(user))
+        return Token(jwtToken, BasicUserInfo(user), user.role.name)
     }
 
     @Transactional
@@ -57,6 +57,6 @@ class AuthService(
         userRepository.save(user)
         otpRepository.delete(otp)
         val jwtToken = jwtService.generateToken(user)
-        return Token(jwtToken, BasicUserInfo(user))
+        return Token(jwtToken, BasicUserInfo(user), user.role.name)
     }
 }

@@ -6,6 +6,7 @@ import com.michaelfmnk.peterparker.userapi.domain.repository.IncidentRepository
 import org.locationtech.jts.geom.Point
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
@@ -25,6 +26,10 @@ class IncidentService(
         } else {
             incidentRepository.findNearest(center, plateNumber, pageable)
         }
+    }
+
+    fun getReportedIncidents(userLocation: Point, userId: Long, pageable: PageRequest): Page<Incident> {
+        return incidentRepository.findNearestByReporter(userLocation, userId, pageable)
     }
 
 }

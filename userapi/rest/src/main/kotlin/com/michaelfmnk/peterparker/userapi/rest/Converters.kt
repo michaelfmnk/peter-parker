@@ -2,6 +2,7 @@ package com.michaelfmnk.peterparker.userapi.rest
 
 import com.michaelfmnk.peterparker.userapi.api.dto.IncidentDto
 import com.michaelfmnk.peterparker.userapi.api.dto.LocationDto
+import com.michaelfmnk.peterparker.userapi.api.dto.PageDto
 import com.michaelfmnk.peterparker.userapi.api.dto.SignUpResponseDto
 import com.michaelfmnk.peterparker.userapi.api.param.Pagination
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.Incident
@@ -12,7 +13,6 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Point
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
-import com.michaelfmnk.peterparker.userapi.api.dto.PageDto
 
 fun Incident.toDto() = IncidentDto(id, createdDate!!, location.toDto(), description)
 
@@ -32,9 +32,10 @@ fun User.toSignUpResponseDto() = SignUpResponseDto(
         phone = phone
 )
 
-fun IncidentDto.toEntity(): Incident = Incident(
+fun IncidentDto.toEntity(userId: Long): Incident = Incident(
         location = GeometryFactory().createPoint(Coordinate(location.lat, location.lng)),
-        description = description
+        description = description,
+        reporterId = userId
 )
 
 fun Pagination.toJpaPageable(): PageRequest = PageRequest.of(page, size)
