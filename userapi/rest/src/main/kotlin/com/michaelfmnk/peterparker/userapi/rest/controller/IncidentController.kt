@@ -39,6 +39,14 @@ class IncidentController(
         val page = incidentService.getReportedIncidents(userLocation, auth.userId, params.toJpaPageable())
         return page.toDto(userLocation)
     }
+
+    @GetMapping(Api.Incidents.OWN_INCIDENTS)
+    fun getOwnIncidents(@Validated params: IncidentParams, auth: UserAuthentication): PageDto<IncidentDto> {
+        val userLocation = pointOf(params.iLat, params.iLng)
+
+        val page = incidentService.getOwnIncidents(userLocation, auth.userId, params.toJpaPageable())
+        return page.toDto(userLocation)
+    }
 }
 
 
