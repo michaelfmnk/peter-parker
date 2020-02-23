@@ -52,7 +52,7 @@ open class AuthControllerTest : BaseControllerTest() {
         fun `should login user`() {
             val loginRequest = LoginRequest("test@test.com", "secret")
 
-            every { authService.createToken(any(), any()) } returns Token("preparedToken", BasicUserInfo(1), RoleType.WATCHER)
+            every { authService.createToken(any(), any()) } returns Token("preparedToken", BasicUserInfo(1, "fname", "lname", "380987"), RoleType.WATCHER)
 
             given()
                     .contentType(ContentType.JSON)
@@ -120,7 +120,10 @@ open class AuthControllerTest : BaseControllerTest() {
         @Test
         fun `should check otp with success`() {
             every { authService.confirmOtp(any()) } returns Token("token", BasicUserInfo(
-                    userId = 200
+                    userId = 200,
+                    firstName = "fname",
+                    lastName = "lname",
+                    phone = "0988900988"
             ), RoleType.WATCHER)
 
             given()
