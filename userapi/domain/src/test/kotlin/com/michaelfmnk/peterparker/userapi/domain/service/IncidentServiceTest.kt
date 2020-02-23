@@ -29,22 +29,24 @@ import java.time.LocalDateTime
 @SqlGroup(value = [Sql(value = ["classpath:clear.sql"]), Sql(value = ["classpath:incidents.sql"])])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = [DomainTestConfiguration::class])
-internal class IncidentServiceTest {
+class IncidentServiceTest {
 
     @Autowired
     lateinit var incidentRepository: IncidentRepository
 
     lateinit var incidentService: IncidentService
     lateinit var eventPublisher: ApplicationEventPublisher
+    lateinit var userService: UserService
 
     @BeforeEach
-    internal fun setUp() {
+    fun setUp() {
         eventPublisher = mockk(relaxUnitFun = true)
-        incidentService = IncidentService(incidentRepository, eventPublisher)
+        userService = mockk()
+        incidentService = IncidentService(incidentRepository, eventPublisher, userService)
     }
 
     @Test
-    internal fun `should create incident`() {
+    fun `should create incident`() {
         // given
         val incident = Incident(
                 documentId = "documentId",
@@ -63,7 +65,7 @@ internal class IncidentServiceTest {
     }
 
     @Test
-    internal fun `should publish incident creation event`() {
+    fun `should publish incident creation event`() {
         // given
         val incident = Incident(
                 documentId = "documentId",
@@ -83,7 +85,7 @@ internal class IncidentServiceTest {
     }
 
     @Test
-    internal fun `should get second page of incidents`() {
+    fun `should get second page of incidents`() {
         val incidents = incidentService.getIncidents(pointOf(48.517607, 34.967458), PageRequest.of(1, 2))
 
         assertAll {
@@ -94,7 +96,7 @@ internal class IncidentServiceTest {
 
 
     @Test
-    internal fun `should get first page of incidents`() {
+    fun `should get first page of incidents`() {
         val incidents = incidentService.getIncidents(pointOf(48.517607, 34.967458), PageRequest.of(0, 3))
 
         assertAll {

@@ -7,28 +7,18 @@ import com.michaelfmnk.peterparker.userapi.domain.model.entity.RoleType
 import com.michaelfmnk.peterparker.userapi.domain.model.entity.User
 import com.michaelfmnk.peterparker.userapi.domain.repository.OtpRepository
 import com.michaelfmnk.peterparker.userapi.domain.repository.UserRepository
-import io.mockk.CapturingSlot
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.security.crypto.password.PasswordEncoder
 
 class AuthServiceTest {
-
-    @MockK(relaxUnitFun = true)
-    lateinit var smsSender: SmsSender
-    @MockK
-    lateinit var jwtService: JwtService
-    @MockK
-    lateinit var userRepository: UserRepository
-    @MockK
-    lateinit var passwordEncoder: PasswordEncoder
-    @MockK
-    lateinit var otpRepository: OtpRepository
+    val smsSender: SmsSender = mockk(relaxUnitFun = true)
+    val jwtService: JwtService = mockk()
+    val userRepository: UserRepository = mockk()
+    val passwordEncoder: PasswordEncoder = mockk()
+    val otpRepository: OtpRepository = mockk()
 
     lateinit var authService: AuthService
 
