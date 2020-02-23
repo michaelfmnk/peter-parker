@@ -1,34 +1,38 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Body, Button, Header, Icon, Right, Title} from "native-base";
-
+import {Body, Button, Header, Icon, Left, Right, Title} from 'native-base';
 
 class AppHeader extends Component {
-
-
-    render() {
-        return (
-            <Header>
-                <Body>
-                    <Title>{this.props.title}</Title>
-                </Body>
-                <Right>
-                    <Button transparent>
-                        <Icon name='add'/>
-                    </Button>
-                </Right>
-            </Header>
-        );
-    }
+  render() {
+    return (
+        <Header>
+          <Left/>
+          <Body>
+            <Title>{this.props.title}</Title>
+          </Body>
+          <Right>
+            {
+              this.props.addButton && (
+                  <Button transparent>
+                    <Icon name='add'/>
+                  </Button>
+              )
+            }
+          </Right>
+        </Header>
+    );
+  }
 
 }
 
 AppHeader.propTypes = {
-    title: PropTypes.string,
+  title: PropTypes.string,
+  addButton: PropTypes.bool,
 };
 
 AppHeader.defaultProps = {
-    title: 'Peter Parker',
+  title: 'Peter Parker',
+  addButton: true,
 };
 
 

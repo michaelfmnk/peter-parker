@@ -14,7 +14,6 @@ export default function reducer(state = initialState, action) {
             return state;
         }
         case successAction(LOG_IN): {
-            console.log(action.response.data.token);
             return {
                 ...state,
                 ...action.response.data,

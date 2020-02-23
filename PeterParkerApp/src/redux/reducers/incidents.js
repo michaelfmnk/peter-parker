@@ -1,5 +1,5 @@
 import {successAction} from '../actions/types';
-import {GET_REPORTED_INCIDENTS} from '../actions/incidents';
+import {GET_INCIDENTS} from '../actions/incidents';
 
 const initialState = {
     reported: {
@@ -18,10 +18,10 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
-        case successAction(GET_REPORTED_INCIDENTS): {
+        case successAction(GET_INCIDENTS): {
             return {
                 ...state,
-                reported: {
+                [action.incidentType]: {
                     data: action.response.data.content,
                     total: action.response.data.total,
                     page: action.response.data.page,

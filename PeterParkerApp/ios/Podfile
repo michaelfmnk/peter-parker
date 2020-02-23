@@ -49,13 +49,3 @@ target 'PeterParkerApp' do
 
   use_native_modules!
 end
-
-target 'PeterParkerApp-tvOS' do
-  # Pods for PeterParkerApp-tvOS
-
-  target 'PeterParkerApp-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end

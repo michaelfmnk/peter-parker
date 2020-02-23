@@ -1,31 +1,35 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {getReportedIncidents} from "../redux/actions/incidents";
+import {getReportedIncidents} from '../redux/actions/incidents';
 import {Container, Content, List} from 'native-base';
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
-import {selectIncidents} from "../redux/selectors/incidents";
-import AppHeader from "../components/AppHeader";
-import IncidentListItem from "../components/IncidentListItem";
-
+import {selectIncidents} from '../redux/selectors/incidents';
+import AppHeader from '../components/AppHeader';
+import IncidentListItem from '../components/IncidentListItem';
 
 class IncidentsScreen extends Component {
+    namesMapping = {
+        'Own': 'Own Cases',
+        'Reported': 'Reported ',
+    };
 
     componentDidMount() {
-        this.getIncidentsAround()
+        this.getIncidentsAround();
     }
 
     getIncidentsAround() {
         Geolocation.getCurrentPosition(position => {
             const type = this.props.type.toLowerCase();
-            this.props.getReportedIncidents(type, position.coords.latitude, position.coords.longitude)
+            this.props.getReportedIncidents(type, position.coords.latitude,
+                position.coords.longitude);
         });
     }
 
     render() {
         return (
             <Container>
-                <AppHeader title={`${this.props.type} Incidents`}/>
+                <AppHeader title={this.namesMapping[this.props.type]}/>
                 <Content>
                     <List>
                         {
