@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ListItem, Text} from "native-base";
-import {Image, StyleSheet, View} from "react-native";
-
+import {ListItem, Text} from 'native-base';
+import {Image, StyleSheet, View} from 'react-native';
 
 class IncidentListItem extends Component {
     round(num) {
-        return Math.round(num * 100 + Number.EPSILON) / 100
+        return Math.round(num * 100 + Number.EPSILON) / 100;
     }
 
     render() {
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
     image: {
         width: 126,
         height: 109,
-        marginLeft: 99
+        marginLeft: 120,
     }
 });
 
