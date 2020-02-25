@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  nginx:
+    build: ./balancer
+    restart: always
+    links:
+      - "user-api:user-api"
+    ports:
+      - "80:80"
+
+  postgres:
+    image: sameersbn/postgresql:9.6-2
+    ports:
+      - "5439:5432"
+    command: '-N 500'
+    environment:
+      - DEBUG=false
+      - PG_TRUST_LOCALNET=true
+      - PG_PASSWORD=f248a7bf824547fdb7e7128965
+      - DB_NAME=peter-parker-userapi
+
+
+  user-api:
+    image: michaelfmnk/peterparker
+    restart: always
+    environment:
+      - JVM_MEMORY_OPTS=-Dspring.datasource.url=jdbc:postgresql://postgres:5432/peter-parker-userapi -Dspring.datasource.username=postgres -Dauth.private-key-path=/secret/fake-privatekey.der -Dspring.datasource.password=f248a7bf824547fdb7e7128965 -Dserver.port=8080
+    links:
+      - "postgres:postgres"
+    volumes:
+      - "./data/secret/:/secret/"
+    ports:
+      - "8080"
