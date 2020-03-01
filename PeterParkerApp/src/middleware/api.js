@@ -1,16 +1,11 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
-import {
-    failAction,
-    SEND_REQUEST,
-    startAction,
-    successAction,
-} from '../redux/actions/types';
+import {failAction, SEND_REQUEST, startAction, successAction,} from '../redux/actions/types';
 import {selectIsLoggedIn, selectToken} from '../redux/selectors/session';
 import {logOut} from '../redux/actions/session';
 
-axios.defaults.baseURL = 'http://192.168.0.128:8080';
+axios.defaults.baseURL = 'http://127.0.0.1:8080';
 axios.defaults.timeout = 30000;
 
 const instance = axios.create({
@@ -21,7 +16,7 @@ const instance = axios.create({
 
 const paramsSerializer = params => queryString.stringify(params);
 
-export const callApi = (headers, method = 'get', endpoint, body, params, responseType = 'json') => instance({
+export const callApi = (baseURL, headers, method = 'get', endpoint, body, params, responseType = 'json') => instance({
     headers,
     url: endpoint,
     method,
@@ -29,6 +24,7 @@ export const callApi = (headers, method = 'get', endpoint, body, params, respons
     params,
     responseType,
     paramsSerializer,
+    baseURL: baseURL || axios.defaults.baseURL
 });
 
 // eslint-disable-next-line no-undef
@@ -39,6 +35,7 @@ function handleError(error, actionWrapper, dispatch, type) {
         dispatch(logOut());
     }
 
+    console.log(error);
     return dispatch({
         type: failAction(type),
         response: error.response,
@@ -66,6 +63,7 @@ export default store => next => (action) => {
 
     let {endpoint} = callAPI;
     const {
+        baseURL,
         type, method = 'get', body = {}, params, converter = response => response,
         responseType, submitFormRequest,
     } = callAPI;
@@ -101,9 +99,14 @@ export default store => next => (action) => {
         type: SEND_REQUEST,
         requestType: type,
     });
-    const headers = getHeaders(store.getState());
 
-    return callApi(headers, method, endpoint, body, params, responseType)
+
+    let headers = callAPI.headers || {};
+    headers = {...getHeaders(store.getState()), ...headers};
+    console.log(headers);
+
+    console.log(baseURL, headers, method, endpoint, body, params, responseType);
+    return callApi(baseURL, headers, method, endpoint, body, params, responseType)
         .then(
             (response) => {
                 store.dispatch(actionWith({

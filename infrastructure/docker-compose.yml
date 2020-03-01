@@ -21,7 +21,7 @@ services:
 
 
   user-api:
-    image: michaelfmnk/peterparker
+    image: registry.gitlab.com/michaelfmnk/peter-parker/userapi
     restart: always
     environment:
       - JVM_MEMORY_OPTS=-Dspring.datasource.url=jdbc:postgresql://postgres:5432/peter-parker-userapi -Dspring.datasource.username=postgres -Dauth.private-key-path=/secret/fake-privatekey.der -Dspring.datasource.password=f248a7bf824547fdb7e7128965 -Dserver.port=8080
