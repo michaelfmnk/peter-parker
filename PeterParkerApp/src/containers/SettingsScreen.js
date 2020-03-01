@@ -9,49 +9,49 @@ import {connect} from 'react-redux';
 
 class SettingsScreen extends Component {
 
-  formatName = () => {
-    let user = this.props.user;
-    return `${user.firstName} ${user.lastName}`;
-  };
+    formatName = () => {
+        let user = this.props.user;
+        return `${user.firstName} ${user.lastName}`;
+    };
 
-  render() {
-    return (
-        <Container>
-          <Content style={styles.content}>
-            <PersonalInfoCard
-                name={this.formatName()}
-                phone={this.props.user.phone}
-                onPress={() => this.props.navigation.navigate(
-                    'EditProfileScreen')}
-            />
+    render() {
+        return (
+            <Container>
+                <Content style={styles.content}>
+                    <PersonalInfoCard
+                        name={this.formatName()}
+                        phone={this.props.user.phone}
+                        onPress={() => this.props.navigation.navigate(
+                            'EditProfileScreen')}
+                    />
 
-          </Content>
-        </Container>
+                </Content>
+            </Container>
 
-    );
-  }
+        );
+    }
 }
 
 SettingsScreen.propTypes = {
-  navigation: PropTypes.object,
-  user: PropTypes.object,
+    navigation: PropTypes.object,
+    user: PropTypes.object,
 };
 
 SettingsScreen.defaultProps = {
-  user: {
-    firstName: '',
-    lastName: '',
-  },
+    user: {
+        firstName: '',
+        lastName: '',
+    },
 };
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: '#f0eff3',
-  },
+    content: {
+        backgroundColor: '#f0eff3',
+    },
 });
 
 const mapStateToProps = state => ({
-  user: selectUserInfo(state),
+    user: selectUserInfo(state),
 });
 
 export default connect(mapStateToProps)(SettingsScreen);

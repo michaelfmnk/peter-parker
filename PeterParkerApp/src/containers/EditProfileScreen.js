@@ -7,33 +7,33 @@ import FullLineButton from '../components/FullLineButton';
 import {logOut} from '../redux/actions/session';
 
 class EditProfileScreen extends Component {
-  render() {
-    return (
-        <Container>
-          <Content style={styles.content}>
-            <FullLineButton
-                onPress={this.props.logOut}
-                text="Log Out"
-                textColor="red"
-            />
-          </Content>
-        </Container>
-    );
-  }
+    render() {
+        return (
+            <Container>
+                <Content style={styles.content}>
+                    <FullLineButton
+                        onPress={this.props.logOut}
+                        text="Log Out"
+                        textColor="red"
+                    />
+                </Content>
+            </Container>
+        );
+    }
 }
 
 EditProfileScreen.propTypes = {
-  logOut: PropTypes.func,
+    logOut: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: '#f0eff3',
-  },
+    content: {
+        backgroundColor: '#f0eff3',
+    },
 });
 
 const mapDispatchToProps = {
-  logOut,
+    logOut,
 };
 
 export default connect(undefined, mapDispatchToProps)(EditProfileScreen);

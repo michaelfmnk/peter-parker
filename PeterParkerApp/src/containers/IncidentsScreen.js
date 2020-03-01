@@ -18,6 +18,11 @@ class IncidentsScreen extends Component {
         this.getIncidentsAround();
     }
 
+    openIncidentForm = () => {
+        console.log(this.props);
+        this.props.navigation.navigate('IncidentFormScreen');
+    };
+
     getIncidentsAround() {
         Geolocation.getCurrentPosition(position => {
             const type = this.props.type.toLowerCase();
@@ -29,7 +34,7 @@ class IncidentsScreen extends Component {
     render() {
         return (
             <Container>
-                <AppHeader title={this.namesMapping[this.props.type]}/>
+                <AppHeader title={this.namesMapping[this.props.type]} onPress={this.openIncidentForm}/>
                 <Content>
                     <List>
                         {
@@ -49,6 +54,7 @@ class IncidentsScreen extends Component {
 }
 
 IncidentsScreen.propTypes = {
+    navigation: PropTypes.object,
     getReportedIncidents: PropTypes.func,
     incidents: PropTypes.array,
     type: PropTypes.oneOf(['Own', 'Reported']),

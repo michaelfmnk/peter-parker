@@ -18,7 +18,7 @@ class IncidentListItem extends Component {
                     <Text style={styles.distanceText}>{`${this.round(incident.distance)} km away`}</Text>
                 </View>
                 <Image
-                    source={{uri: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'}}
+                    source={{uri: incident.photo}}
                     resizeMode="contain"
                     style={styles.image}
                 />
