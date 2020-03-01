@@ -12,5 +12,6 @@ data class IncidentDto(
         var location: LocationDto,
         @field:NotBlank
         var description: String,
+        var photo: String? = null,
         var distance: Double? = null
 )

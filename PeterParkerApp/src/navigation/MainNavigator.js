@@ -8,6 +8,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import IncidentsScreen from '../containers/IncidentsScreen';
 import SettingsScreen from '../containers/SettingsScreen';
 import EditProfileScreen from '../containers/EditProfileScreen';
+import IncidentFormScreen from "../containers/IncidentFormScreen";
 
 const SettingsNavigator = createStackNavigator({
     SettingsOverviewScreen: {
@@ -22,24 +23,36 @@ const SettingsNavigator = createStackNavigator({
     initialRouteName: 'SettingsOverviewScreen',
 });
 
+const BottomTabsNavigator = createBottomTabNavigator({
+    'Reported Cases': {
+        screen: props => (<IncidentsScreen {...props} type="Reported"/>),
+    },
+    'Own Cases': {
+        screen: props => (<IncidentsScreen {...props} type="Own"/>),
+    },
+    'Settings': {screen: SettingsNavigator},
+}, {
+    initialRouteName: 'Reported Cases',
+    navigationOptions: {
+        headerShown: false,
+    },
+});
+
+const MainReporterScreenNavigator = createStackNavigator({
+    BottomTabsNavigator: BottomTabsNavigator,
+    IncidentFormScreen: {screen: IncidentFormScreen, navigationOptions: {title: 'Report Incident'}},
+}, {
+    initialRouteName: 'BottomTabsNavigator',
+});
+
 const MainNavigator = isLoggedIn => createSwitchNavigator({
     AuthScreen: AuthScreen,
     MapScreen: MapScreen,
-    MainReporterScreen: createBottomTabNavigator({
-        'Reported Cases': {
-            screen: props => (<IncidentsScreen {...props} type="Reported"/>),
-        },
-        'Own Cases': {
-            screen: props => (<IncidentsScreen {...props} type="Own"/>),
-        },
-        'Settings': {screen: SettingsNavigator},
-    }, {
-        initialRouteName: 'Reported Cases',
-    }),
+    MainReporterScreen: MainReporterScreenNavigator,
 }, {
     initialRouteName: isLoggedIn ? 'MainReporterScreen' : 'AuthScreen',
 });
 
-nav.setTopLevelNavigator(navigator);
+nav.setTopLevelNavigator(MainNavigator);
 
 export default MainNavigator;

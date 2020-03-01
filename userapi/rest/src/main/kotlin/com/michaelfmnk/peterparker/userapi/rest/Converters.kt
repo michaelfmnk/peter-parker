@@ -14,7 +14,13 @@ import org.locationtech.jts.geom.Point
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 
-fun Incident.toDto() = IncidentDto(id, createdDate!!, location.toDto(), description)
+fun Incident.toDto() = IncidentDto(
+        id = id,
+        createdDate = createdDate!!,
+        location = location.toDto(),
+        description = description,
+        photo = documentId
+)
 
 fun Point.toDto() = LocationDto(x, y)
 
@@ -35,7 +41,8 @@ fun User.toSignUpResponseDto() = SignUpResponseDto(
 fun IncidentDto.toEntity(userId: Long): Incident = Incident(
         location = GeometryFactory().createPoint(Coordinate(location.lat, location.lng)),
         description = description,
-        reporterId = userId
+        reporterId = userId,
+        documentId = photo
 )
 
 fun Pagination.toJpaPageable(): PageRequest = PageRequest.of(page, size)
