@@ -11,13 +11,13 @@ class AppNavigator extends Component {
         isLoggedIn: PropTypes.bool,
     };
 
+    onNavigationStateChange = (_, newState) => navigation.getCurrentRouteName(newState);
+
     render() {
         const Layout = createAppContainer(MainNavigator(this.props.isLoggedIn));
         return (
             <Layout
-                onNavigationStateChange={(oldState, newState) =>
-                    navigation.getCurrentRouteName(newState)
-                }
+                onNavigationStateChange={this.onNavigationStateChange}
                 ref={navigatorRef => {
                     navigation.setTopLevelNavigator(navigatorRef);
                 }}

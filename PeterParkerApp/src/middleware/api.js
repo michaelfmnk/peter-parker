@@ -5,7 +5,7 @@ import {failAction, SEND_REQUEST, startAction, successAction,} from '../redux/ac
 import {selectIsLoggedIn, selectToken} from '../redux/selectors/session';
 import {logOut} from '../redux/actions/session';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8080';
+axios.defaults.baseURL = 'http://192.168.1.109:8080';
 axios.defaults.timeout = 30000;
 
 const instance = axios.create({
@@ -24,7 +24,6 @@ export const callApi = (baseURL, headers, method = 'get', endpoint, body, params
     params,
     responseType,
     paramsSerializer,
-    baseURL: baseURL || axios.defaults.baseURL
 });
 
 // eslint-disable-next-line no-undef

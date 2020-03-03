@@ -9,19 +9,10 @@ import AppHeader from '../components/AppHeader';
 import IncidentListItem from '../components/IncidentListItem';
 
 class IncidentsScreen extends Component {
-    namesMapping = {
-        'Own': 'Own Cases',
-        'Reported': 'Reported ',
-    };
 
     componentDidMount() {
         this.getIncidentsAround();
     }
-
-    openIncidentForm = () => {
-        console.log(this.props);
-        this.props.navigation.navigate('IncidentFormScreen');
-    };
 
     getIncidentsAround() {
         Geolocation.getCurrentPosition(position => {
@@ -30,6 +21,16 @@ class IncidentsScreen extends Component {
                 position.coords.longitude);
         });
     }
+
+    openIncidentForm = () => {
+        console.log(this.props);
+        this.props.navigation.navigate('IncidentFormScreen');
+    };
+
+    static namesMapping = {
+        'Own': 'Own Cases',
+        'Reported': 'Reported ',
+    };
 
     render() {
         return (
