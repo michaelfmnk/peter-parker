@@ -15,7 +15,7 @@ class IncidentListItem extends Component {
             <ListItem button onPress={this.props.onPress}>
                 <View style={styles.textColumn}>
                     <Text style={styles.descriptionText}>{incident.description}</Text>
-                    <Text style={styles.distanceText}>{`${this.round(incident.distance)} km away`}</Text>
+                    <Text style={styles.distanceText}>{`${this.round(incident.distance)} km away`}</Text>
                 </View>
                 <Image
                     source={{uri: incident.photo}}

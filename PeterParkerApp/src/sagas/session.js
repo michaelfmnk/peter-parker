@@ -16,7 +16,7 @@ function watchLogout() {
 
 function prepareFailedLoginMessage(status) {
     let message = 'There was a problem with server. Please, try again later.';
-    if ((status + '').startsWith('4')) {
+    if ((`${status}`).startsWith('4')) {
         message = 'Password or login is wrong';
     }
     return message;
@@ -32,7 +32,7 @@ function* watchFailedLogin(action) {
     ));
 }
 
-const getUserLocation = () => new Promise((resolve, reject) => {
+const getUserLocation = () => new Promise(resolve => {
     Geolocation.getCurrentPosition(position => resolve(position.coords));
 });
 

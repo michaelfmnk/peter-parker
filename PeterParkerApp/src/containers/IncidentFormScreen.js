@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Button, Container, Input, Item, Text} from "native-base";
 import {StyleSheet, View} from "react-native";
@@ -7,10 +8,29 @@ import {createIncident, upload} from '../redux/actions/incidents';
 import Geolocation from "@react-native-community/geolocation";
 
 class IncidentFormScreen extends Component {
-    state = {
-        photo: '',
-        description: '',
-        uploading: false,
+    constructor(props) {
+        super(props);
+        this.setState({
+            photo: '',
+            description: '',
+            uploading: false,
+        });
+    }
+
+    handleChoosePhoto = () => {
+        const options = {
+            title: 'Select incident photo',
+            maxWidth: 300,
+            maxHeight: 300,
+        };
+
+        ImagePicker.showImagePicker(options, response => {
+            if (response.data) {
+                this.setState({uploading: true});
+                this.uploadImage(response.data, url => this.setState({photo: url, uploading: false}));
+            }
+        });
+
     };
 
     uploadImage(base64, callback) {
@@ -32,22 +52,6 @@ class IncidentFormScreen extends Component {
 
     };
 
-    handleChoosePhoto = () => {
-        const options = {
-            title: 'Select incident photo',
-            maxWidth: 300,
-            maxHeight: 300,
-        };
-
-        ImagePicker.showImagePicker(options, response => {
-            if (response.data) {
-                this.setState({uploading: true});
-                this.uploadImage(response.data, url => this.setState({photo: url, uploading: false}));
-            }
-        });
-
-    };
-
     onDescriptionChanged = (value) => {
         this.setState({description: value});
     };
@@ -62,6 +66,18 @@ class IncidentFormScreen extends Component {
 
     };
 
+    renderButtonText = () => {
+        if (this.state.uploading) {
+            return 'Uploading';
+        }
+
+        if (this.state.photo) {
+            return 'Image Selected';
+        }
+
+        return 'Choose Photo';
+    }
+
     render() {
         const submitPossible = this.state.uploading || !this.state.photo || !this.state.description;
         return (
@@ -74,13 +90,8 @@ class IncidentFormScreen extends Component {
                         />
                     </Item>
 
-
                     <Button onPress={this.handleChoosePhoto} disabled={this.state.uploading}>
-                        <Text>
-                            {
-                                this.state.uploading ? 'Uploading' : this.state.photo ? 'Image Selected' : 'Choose Photo'
-                            }
-                        </Text>
+                        <Text>{this.renderButtonText()}</Text>
                     </Button>
                     <View style={styles.submitBtnContainer}>
                         <Button onPress={this.onSubmit} disabled={submitPossible}>
@@ -94,6 +105,10 @@ class IncidentFormScreen extends Component {
     }
 }
 
+IncidentFormScreen.propTypes = {
+    createIncident: PropTypes.func,
+}
+
 const styles = StyleSheet.create({
     content: {
         backgroundColor: '#f0eff3',
@@ -104,7 +119,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
-
 
 const mapStateToProps = {
     createIncident,

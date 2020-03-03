@@ -14,6 +14,10 @@ class SettingsScreen extends Component {
         return `${user.firstName} ${user.lastName}`;
     };
 
+    navigateToEditScreen = () => {
+        this.props.navigation.navigate('EditProfileScreen')
+    }
+
     render() {
         return (
             <Container>
@@ -21,10 +25,8 @@ class SettingsScreen extends Component {
                     <PersonalInfoCard
                         name={this.formatName()}
                         phone={this.props.user.phone}
-                        onPress={() => this.props.navigation.navigate(
-                            'EditProfileScreen')}
+                        onPress={this.navigateToEditScreen}
                     />
-
                 </Content>
             </Container>
 

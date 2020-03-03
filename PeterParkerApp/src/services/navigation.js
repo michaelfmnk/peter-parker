@@ -5,7 +5,7 @@ import {setCurrentRouteName} from '../redux/actions/base';
 let _navigator;
 
 function getCurrentRouteName(navState) {
-    if (navState.hasOwnProperty('index')) {
+    if (Object.prototype.hasOwnProperty.call(navState, 'index')) {
         getCurrentRouteName(navState.routes[navState.index]);
     } else {
         store.dispatch(setCurrentRouteName(navState.routeName));

@@ -15,7 +15,7 @@ class AppHeader extends Component {
                     {
                         this.props.addButton && (
                             <Button transparent onPress={this.props.onPress}>
-                                <Icon name='add'/>
+                                <Icon name="add"/>
                             </Button>
                         )
                     }

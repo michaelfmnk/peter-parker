@@ -63,7 +63,7 @@ class AuthScreen extends Component {
 }
 
 AuthScreen.propTypes = {
-    login: PropTypes.func,
+    logIn: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -78,14 +78,8 @@ const styles = StyleSheet.create({
     },
 });
 
-
 const mapDispatchToProps = {
     logIn,
 };
 
-
-function mapStateToProps(state) {
-    return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
+export default connect(undefined, mapDispatchToProps)(AuthScreen);
