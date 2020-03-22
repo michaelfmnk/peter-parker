@@ -16,4 +16,11 @@ class UserService(
     fun findUserByPlateNumber(plateNumber: String): User = userRepository.findByPlateNumber(plateNumber)
             ?: throw EntityNotFoundException("user with plateNumber: $plateNumber was not found")
 
+    fun updatePlate(userId: Long, plateNumber: String) {
+        val user = findUserById(userId).also {
+            it.plateNumber = plateNumber
+        }
+        userRepository.save(user)
+    }
+
 }

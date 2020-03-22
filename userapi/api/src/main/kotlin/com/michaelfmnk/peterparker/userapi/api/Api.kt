@@ -13,6 +13,10 @@ object Api {
         const val CODE = "/auth/confirm-code"
     }
 
+    object Settings {
+        const val PLATE_NUM = "/settings/plate-number"
+    }
+
     object Incidents {
         const val INCIDENTS = "/incidents"
         const val REPORTED_INCIDENTS = "/incidents/reported"
