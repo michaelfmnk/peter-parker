@@ -1,27 +1,28 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Button, Container, Input, Item, Text} from "native-base";
-import {StyleSheet, View} from "react-native";
-import ImagePicker from 'react-native-image-picker'
+import {Button, Container, Input, Item, Text} from 'native-base';
+import {StyleSheet, View} from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import {createIncident, upload} from '../redux/actions/incidents';
-import Geolocation from "@react-native-community/geolocation";
+import Geolocation from '@react-native-community/geolocation';
 
 class IncidentFormScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.setState({
-            photo: '',
-            description: '',
-            uploading: false,
-        });
-    }
+    state = {
+        photo: '',
+        description: '',
+        uploading: false,
+    };
 
     handleChoosePhoto = () => {
         const options = {
             title: 'Select incident photo',
             maxWidth: 300,
             maxHeight: 300,
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
         };
 
         ImagePicker.showImagePicker(options, response => {
@@ -76,7 +77,7 @@ class IncidentFormScreen extends Component {
         }
 
         return 'Choose Photo';
-    }
+    };
 
     render() {
         const submitPossible = this.state.uploading || !this.state.photo || !this.state.description;
@@ -107,7 +108,7 @@ class IncidentFormScreen extends Component {
 
 IncidentFormScreen.propTypes = {
     createIncident: PropTypes.func,
-}
+};
 
 const styles = StyleSheet.create({
     content: {

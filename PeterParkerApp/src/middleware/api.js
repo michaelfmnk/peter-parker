@@ -1,11 +1,16 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
-import {failAction, SEND_REQUEST, startAction, successAction,} from '../redux/actions/types';
+import {
+    failAction,
+    SEND_REQUEST,
+    startAction,
+    successAction,
+} from '../redux/actions/types';
 import {selectIsLoggedIn, selectToken} from '../redux/selectors/session';
 import {logOut} from '../redux/actions/session';
 
-axios.defaults.baseURL = 'http://192.168.1.109:8080';
+axios.defaults.baseURL = 'http://167.172.57.147/user-api';
 axios.defaults.timeout = 30000;
 
 const instance = axios.create({
@@ -63,7 +68,7 @@ export default store => next => (action) => {
     let {endpoint} = callAPI;
     const {
         baseURL,
-        type, method = 'get', body = {}, params, converter = response => response,
+        type, method = 'get', body, params, converter = response => response,
         responseType, submitFormRequest,
     } = callAPI;
 

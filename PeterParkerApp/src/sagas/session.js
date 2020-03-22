@@ -1,10 +1,13 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import navigation from "../services/navigation";
-import {failAction, successAction} from "../redux/actions/types";
-import {LOG_IN, LOG_OUT} from "../redux/actions/session";
-import {Alert} from "react-native";
-import {CREATE_INCIDENT, getReportedIncidents} from "../redux/actions/incidents";
-import Geolocation from "@react-native-community/geolocation";
+import navigation from '../services/navigation';
+import {failAction, successAction} from '../redux/actions/types';
+import {LOG_IN, LOG_OUT} from '../redux/actions/session';
+import {Alert} from 'react-native';
+import {
+    CREATE_INCIDENT,
+    getReportedIncidents,
+} from '../redux/actions/incidents';
+import Geolocation from '@react-native-community/geolocation';
 
 function watchLogin() {
     navigation.navigate('MainReporterScreen');
@@ -36,7 +39,7 @@ const getUserLocation = () => new Promise(resolve => {
     Geolocation.getCurrentPosition(position => resolve(position.coords));
 });
 
-function nn() {
+function goBack() {
     navigation.goBack();
 }
 
@@ -51,7 +54,7 @@ export default function* watchAuth() {
     yield takeLatest(successAction(LOG_IN), watchLogin);
     yield takeLatest(failAction(LOG_IN), watchFailedLogin);
     yield takeLatest(LOG_OUT, watchLogout);
-    yield takeLatest(successAction(CREATE_INCIDENT), nn);
-    yield takeLatest(successAction(CREATE_INCIDENT), navigateBack)
+    yield takeLatest(successAction(CREATE_INCIDENT), goBack);
+    yield takeLatest(successAction(CREATE_INCIDENT), navigateBack);
 }
 

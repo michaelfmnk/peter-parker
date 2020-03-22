@@ -9,7 +9,8 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import IncidentsScreen from '../containers/IncidentsScreen';
 import SettingsScreen from '../containers/SettingsScreen';
 import EditProfileScreen from '../containers/EditProfileScreen';
-import IncidentFormScreen from "../containers/IncidentFormScreen";
+import IncidentFormScreen from '../containers/IncidentFormScreen';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 const SettingsNavigator = createStackNavigator({
     SettingsOverviewScreen: {
@@ -27,11 +28,25 @@ const SettingsNavigator = createStackNavigator({
 const BottomTabsNavigator = createBottomTabNavigator({
     'Reported Cases': {
         screen: props => (<IncidentsScreen {...props} type="Reported"/>),
+        navigationOptions: () => ({
+            tabBarIcon: ({tintColor}) => <Icon name="location-pin" size={23}
+                                               color={tintColor}/>,
+        }),
     },
     'Own Cases': {
         screen: props => (<IncidentsScreen {...props} type="Own"/>),
+        navigationOptions: () => ({
+            tabBarIcon: ({tintColor}) => <Icon name="exclamation" size={23}
+                                               color={tintColor}/>,
+        }),
     },
-    'Settings': {screen: SettingsNavigator},
+    'Settings': {
+        screen: SettingsNavigator,
+        navigationOptions: () => ({
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={23}
+                                               color={tintColor}/>,
+        }),
+    },
 }, {
     initialRouteName: 'Reported Cases',
     navigationOptions: {

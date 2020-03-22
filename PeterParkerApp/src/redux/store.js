@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 import api from '../middleware/api';
 import createSagaMiddleware from 'redux-saga';
-import {rootSaga} from "../sagas";
+import {rootSaga} from '../sagas';
 
 const persistConfig = {
     key: 'root',
@@ -18,7 +18,7 @@ const persistConfig = {
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [thunk, api, sagaMiddleware];
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = /*window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || */compose;
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
 const persistedReducer = persistReducer(persistConfig, reducers);

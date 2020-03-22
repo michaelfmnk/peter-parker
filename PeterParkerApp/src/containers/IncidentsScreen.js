@@ -27,7 +27,7 @@ class IncidentsScreen extends Component {
         this.props.navigation.navigate('IncidentFormScreen');
     };
 
-    static namesMapping = {
+    namesMapping = {
         'Own': 'Own Cases',
         'Reported': 'Reported ',
     };
