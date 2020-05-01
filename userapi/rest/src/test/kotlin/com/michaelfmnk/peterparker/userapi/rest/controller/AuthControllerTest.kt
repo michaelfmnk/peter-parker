@@ -52,7 +52,7 @@ open class AuthControllerTest : BaseControllerTest() {
         fun `should login user`() {
             val loginRequest = LoginRequest("test@test.com", "secret")
 
-            every { authService.createToken(any(), any()) } returns Token("preparedToken", BasicUserInfo(1, "fname", "lname", "380987"), RoleType.WATCHER)
+            every { authService.createToken(any(), any()) } returns Token("preparedToken", BasicUserInfo(1, "fname", "lname", "380987", "plate"), RoleType.WATCHER)
 
             given()
                     .contentType(ContentType.JSON)
@@ -62,6 +62,7 @@ open class AuthControllerTest : BaseControllerTest() {
                     .then()
                     .statusCode(HttpStatus.SC_OK)
                     .body("token", Matchers.equalTo("preparedToken"))
+                    .body("user.plateNumber", Matchers.equalTo("plate"))
                     .body("user.userId", Matchers.equalTo(1))
         }
     }
@@ -123,7 +124,8 @@ open class AuthControllerTest : BaseControllerTest() {
                     userId = 200,
                     firstName = "fname",
                     lastName = "lname",
-                    phone = "0988900988"
+                    phone = "0988900988",
+                    plateNumber = "plate444"
             ), RoleType.WATCHER)
 
             given()
@@ -135,6 +137,7 @@ open class AuthControllerTest : BaseControllerTest() {
                     .statusCode(HttpStatus.SC_OK)
                     .body("token", Matchers.equalTo("token"))
                     .body("user.userId", Matchers.equalTo(200))
+                    .body("user.plateNumber", Matchers.equalTo("plate444"))
 
 
             verify { authService.confirmOtp("code") }
