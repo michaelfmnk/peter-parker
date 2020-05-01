@@ -3,11 +3,17 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 class FullLineButton extends Component {
+
+    constructor(props) {
+        super(props);
+        this.customStyles = styles(props.textColor);
+    }
+
     render() {
         return (
-            <TouchableOpacity onPress={this.props.onPress}>
-                <View style={styles.line}>
-                    <Text style={styles.text}>{this.props.text}</Text>
+            <TouchableOpacity onPress={this.props.onPress} style={this.props.style}>
+                <View style={this.customStyles.line}>
+                    <Text style={this.customStyles.text}>{this.props.text}</Text>
                 </View>
             </TouchableOpacity>
         );
@@ -15,16 +21,19 @@ class FullLineButton extends Component {
 }
 
 FullLineButton.propTypes = {
+    textColor: PropTypes.string,
     text: PropTypes.string,
+    style: PropTypes.object,
     onPress: PropTypes.func,
 };
 FullLineButton.defaultProps = {
     text: 'Button',
+    style: {},
     onPress: () => {
     },
 };
 
-const styles = StyleSheet.create({
+const styles = (textColor) => StyleSheet.create({
     line: {
         backgroundColor: '#ffffff',
         borderTopWidth: 1,
@@ -37,7 +46,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         lineHeight: 40,
         fontSize: 18,
-        color: '#de5246',
+        color: textColor,
     },
 });
 

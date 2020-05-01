@@ -56,7 +56,10 @@ const BottomTabsNavigator = createBottomTabNavigator({
 
 const MainReporterScreenNavigator = createStackNavigator({
     BottomTabsNavigator: BottomTabsNavigator,
-    IncidentFormScreen: {screen: IncidentFormScreen, navigationOptions: {title: 'Report Incident'}},
+    IncidentFormScreen: {
+        screen: IncidentFormScreen,
+        navigationOptions: {title: 'Report Incident'},
+    },
 }, {
     initialRouteName: 'BottomTabsNavigator',
 });

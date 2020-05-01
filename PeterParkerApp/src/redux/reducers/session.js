@@ -1,10 +1,12 @@
 import {successAction} from '../actions/types';
-import {LOG_IN, LOG_OUT, SIGN_UP} from '../actions/session';
+import {LOG_IN, LOG_OUT, PLATE_RECENTLY_UPDATED, SIGN_UP, UPDATE_PLATE} from '../actions/session';
 
 const initialState = {
     waitingForCode: false,
     token: null,
     role: null,
+    plateRecentlyUpdated: false,
+    user: {},
 };
 
 export default function reducer(state = initialState, action) {
@@ -17,6 +19,21 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 ...action.response.data,
+            };
+        }
+        case successAction(UPDATE_PLATE): {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    plateNumber: action.plateNumber,
+                },
+            };
+        }
+        case PLATE_RECENTLY_UPDATED: {
+            return {
+                ...state,
+                plateRecentlyUpdated: action.value,
             };
         }
         case LOG_OUT: {
