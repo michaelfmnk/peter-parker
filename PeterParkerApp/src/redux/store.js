@@ -18,7 +18,7 @@ const persistConfig = {
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [thunk, api, sagaMiddleware];
 
-const composeEnhancers = /*window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || */compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
 const persistedReducer = persistReducer(persistConfig, reducers);
