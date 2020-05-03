@@ -1,6 +1,6 @@
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_IMAGE_API: registry.gitlab.com/michaelfmnk/peter-parker/userapi
+  DOCKER_IMAGE_API: registry.gitlab.com/michaelfmnk/peter-parker-lab/userapi
   BUILD_TIME_TAMPLATE: +%Y.%m.%d.%H.%M.%S
 
 cache:
