@@ -15,7 +15,7 @@
     <description>Peter Parker User API Domain Layer</description>
 
     <properties>
-        <docker.image.name>registry.gitlab.com/michaelfmnk/peter-parker/userapi</docker.image.name>
+        <docker.image.name>registry.gitlab.com/michaelfmnk/peter-parker-lab/userapi</docker.image.name>
         <docker.image.tag>latest</docker.image.tag>
     </properties>
 
