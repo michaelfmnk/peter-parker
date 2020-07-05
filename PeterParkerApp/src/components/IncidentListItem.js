@@ -12,7 +12,7 @@ class IncidentListItem extends Component {
         const incident = this.props.incident;
 
         return (
-            <ListItem button onPress={this.props.onPress}>
+            <ListItem button onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
                 <View style={styles.textColumn}>
                     <Text style={styles.descriptionText}>{incident.description}</Text>
                     <Text style={styles.distanceText}>{`${this.round(incident.distance)} km away`}</Text>
@@ -30,6 +30,7 @@ class IncidentListItem extends Component {
 IncidentListItem.propTypes = {
     incident: PropTypes.object,
     onPress: PropTypes.func,
+    onLongPress: PropTypes.func,
 };
 
 IncidentListItem.defaultProps = {

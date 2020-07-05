@@ -12,6 +12,7 @@ import com.michaelfmnk.peterparker.userapi.rest.toEntity
 import com.michaelfmnk.peterparker.userapi.rest.toJpaPageable
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import springfox.documentation.annotations.ApiIgnore
 
 @RestController
 @RequestMapping(Api.BASE_PATH)
@@ -20,7 +21,7 @@ class IncidentController(
 ) {
 
     @PostMapping(Api.Incidents.INCIDENTS)
-    fun createIncident(@Validated @RequestBody incident: IncidentDto, auth: UserAuthentication) {
+    fun createIncident(@Validated @RequestBody incident: IncidentDto, @ApiIgnore auth: UserAuthentication) {
         incidentService.createIncident(incident.toEntity(auth.userId), auth.userId)
     }
 

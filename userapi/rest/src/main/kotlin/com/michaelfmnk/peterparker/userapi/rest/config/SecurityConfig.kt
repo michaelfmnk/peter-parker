@@ -9,9 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.firewall.DefaultHttpFirewall
-
 import org.springframework.security.web.firewall.HttpFirewall
 
 
@@ -27,7 +25,8 @@ class SecurityConfig(
             Api.Common.VERSION,
             Api.BASE_PATH + Api.Auth.LOGIN,
             Api.BASE_PATH + Api.Auth.SIGN_UP,
-            Api.BASE_PATH + Api.Auth.CODE
+            Api.BASE_PATH + Api.Auth.CODE,
+            "/.*"
     )
 
     override fun configure(http: HttpSecurity) {
@@ -38,9 +37,9 @@ class SecurityConfig(
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(*excludedPaths.toTypedArray()).permitAll()
-                .anyRequest().fullyAuthenticated().and()
-                .addFilterAfter(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
-                .headers().cacheControl().disable()
+//                .anyRequest().fullyAuthenticated().and()
+//                .addFilterAfter(jwtFilter(), UsernamePasswordAuthenticationFilter::class.java)
+//                .headers().cacheControl().disable()
     }
 
     private fun jwtFilter() = JwtFilter(jwtService, userService, excludedPaths)

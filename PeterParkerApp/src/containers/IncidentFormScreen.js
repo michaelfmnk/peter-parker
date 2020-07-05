@@ -57,6 +57,10 @@ class IncidentFormScreen extends Component {
         this.setState({description: value});
     };
 
+    onPlateNumberChanged = (value) => {
+        this.setState({plateNumber: value});
+    }
+
     onSubmit = () => {
         Geolocation.getCurrentPosition(position => {
             this.props.createIncident(this.state.description, this.state.photo, {
@@ -88,6 +92,12 @@ class IncidentFormScreen extends Component {
                         <Input
                             placeholder="Description"
                             onChangeText={this.onDescriptionChanged}
+                        />
+                    </Item>
+                    <Item>
+                        <Input
+                            placeholder="Plate number"
+                            onChangeText={this.onPlateNumberChanged}
                         />
                     </Item>
 
